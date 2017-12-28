@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
+       default-lazy-init="false">
+
+    <!--终端信息缓存-->
+    <dubbo:reference id="terminalRefreshFacade"
+                     interface="com.baofoo.cache.service.facade.TerminalQueryFacade"
+                     version="1.0.0"/>
+
+    <!--商户信息缓存-->
+    <dubbo:reference id="memberQueryFacade"
+                     interface="com.baofoo.cache.service.facade.MemberQueryFacade"
+                     version="1.0.0"/>
+
+    <!--渠道信息缓存-->
+    <dubbo:reference id="channelCacheFacade"
+                     interface="com.baofoo.cache.service.facade.cgw.ChannelCacheFacade"
+                     version="1.0.0"/>
+
+    <!-- 汇款请求测试环境 -->
+    <dubbo:reference id="cgwCbpayReqFacade"
+                     interface="com.baofoo.cbcgw.facade.api.gw.CgwCbPayReqFacade"
+                     check="false"
+                     timeout="30000"
+                     version="${cbpay.dubbo.version}"/>
+
+    <!-- 用户绑定信息 -->
+    <dubbo:reference id="cardBindFacade"
+                     interface="com.baofoo.pt.facade.cpt.CardBindFacade"
+                     check="false"
+                     timeout="30000"
+                     version="1.0.0"/>
+
+    <dubbo:reference id="memberQueryServiceImpl"
+                     interface="com.baofoo.ma.query.facade.MemberQueryService"
+                     check="false"
+                     timeout="30000"
+                     retries="0"/>
+
+    <!-- 渠道定时任务 -->
+    <dubbo:reference id="cgwTaskFacade"
+                     interface="com.baofoo.cbcgw.facade.api.gw.CgwTaskFacade"
+                     timeout="60000"
+                     check="false"
+                     retries="0"
+                     version="${cbpay.dubbo.version}"/>
+
+    <!-- 外币账户体系对交易体系服务接口 -->
+    <dubbo:reference id="accountTradeFacade"
+                     interface="com.baofu.accountcenter.service.facade.AccountTradeFacade"
+                     timeout="60000"
+                     check="false"
+                     retries="0"
+                     version="${cbpay.dubbo.version}"/>
+
+    <!-- 跨境人名币清算账户服务接口 -->
+    <dubbo:reference id="accountServiceFacade"
+                     interface="com.baofu.accountcenter.service.facade.AccountServiceFacade"
+                     timeout="60000"
+                     check="false"
+                     retries="0"
+                     version="${cbpay.dubbo.version}"/>
+
+    <!-- 商户信息查询服务接口 -->
+    <dubbo:reference id="queryMemberEmailFacade"
+                     interface="com.baofoo.member.service.facade.cbp_facade.QueryMemberEmailFacade"
+                     timeout="60000"
+                     check="false"
+                     retries="0"/>
+
+    <!-- 风控服务接口 wdj -->
+    <dubbo:reference id="iRmRequestService"
+                     interface="com.baofoo.rm.ws.dubbo.core.IRmRequestService"
+                     version="1.0.0"
+                     timeout="60000"
+                     check="false"
+                     retries="0"/>
+
+    <!-- 跨境计费服务接口 -->
+    <dubbo:reference id="feeMemberServiceFacade"
+                     interface="com.baofoo.cache.bill.service.facade.FeeMemberServiceFacade"
+                     timeout="60000"
+                     check="false"
+                     version="1.0.0"
+                     retries="0"/>
+
+    <!-- 清算服务接口 -->
+    <dubbo:reference id="cmService"
+                     interface="com.baofoo.clearing.facade.CmService"
+                     timeout="60000"
+                     check="false"
+                     version="1.0.0"
+                     retries="0"/>
+
+    <!-- 余额查询服务接口 -->
+    <dubbo:reference id="cmQueryService"
+                     interface="com.baofoo.clearing.facade.CmQueryService"
+                     timeout="60000"
+                     check="false"
+                     version="1.0.0"
+                     retries="0"/>
+
+</beans>

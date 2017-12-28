@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/rabbit
+        http://www.springframework.org/schema/rabbit/spring-rabbit-1.3.xsd">
+
+    <!-- 配置连接工厂-->
+    <rabbit:connection-factory id="connectionFactory"
+                               host="${rabbitmq.address}"
+                               port="${rabbitmq.port}"
+                               username="${rabbitmq.username}"
+                               password="${rabbitmq.password}"
+                               virtual-host="${rabbitmq.vhost}"
+                               connection-factory="refConnectionFactory"/>
+
+    <!-- 配置心跳、超时、自动恢复（也是基于官方的客户端jar包）-->
+    <bean id="refConnectionFactory" class="com.rabbitmq.client.ConnectionFactory">
+        <property name="requestedHeartbeat" value="240"/>
+        <property name="connectionTimeout" value="10000"/>
+        <property name="automaticRecoveryEnabled" value="true"/>
+    </bean>
+
+    <rabbit:admin connection-factory="connectionFactory"/>
+
+    <!-- mq发送消息修改相应的routing-key即可 -->
+    <rabbit:template id="refundCenterTemplate" exchange=""
+                     connection-factory="connectionFactory"/>
+</beans>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:conf="http://www.system.com/schema/tags/config"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.system.com/schema/tags/config
+       http://www.system.com/schema/tags/config/config.xsd">
+
+    <context:component-scan base-package="com.baofu.cbpayservice"/>
+    <context:component-scan base-package="com.system.config"/>
+    <context:component-scan base-package="com.github.diamond"/>
+
+    <!-- 配置管理中心 -->
+    <conf:conf host="${config.server.host}"
+               port="${config.server.port}"
+               project="${config.server.project}"
+               profile="${config.server.profile}"
+               module="${config.server.module}"
+               listener="configListener"/>
+    <conf:property-placeholder/>
+
+    <!-- 远程服务调用 -->
+    <import resource="spring-service.xml"/>
+    <!--数据源 -->
+    <import resource="spring-data.xml"/>
+
+    <import resource="spring-redis.xml"/>
+
+    <!-- dubbo调用 -->
+    <import resource="spring-dubbo-producer.xml"/>
+    <import resource="spring-dubbo-consumer.xml"/>
+
+    <import resource="mq/rabbitmq-producer.xml"/>
+    <import resource="mq/rabbitmq-consumer.xml"/>
+</beans>
