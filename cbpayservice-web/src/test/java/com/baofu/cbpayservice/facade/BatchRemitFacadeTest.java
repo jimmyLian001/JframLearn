@@ -62,18 +62,20 @@ public class BatchRemitFacadeTest extends BaseTest {
         List<BatchRemitDto> batchRemitDtoList = Lists.newArrayList();
         BatchRemitDto remitDto = new BatchRemitDto();
         remitDto.setCreateBy("terry");
-        remitDto.setEntityNo("10001852910001");
+        remitDto.setEntityNo("10001852910005");
         remitDto.setMemberId(100018529L);
         remitDto.setTargetCcy("USD");
-        remitDto.setRemitAmt(new BigDecimal("3000000"));
+        remitDto.setRemitAmt(new BigDecimal("30"));
+        remitDto.setFileName("文件1");
         batchRemitDtoList.add(remitDto);
 
         BatchRemitDto remitDto2 = new BatchRemitDto();
         remitDto2.setCreateBy("terry");
-        remitDto2.setEntityNo("10001852910001");
+        remitDto2.setEntityNo("10001852910005");
         remitDto2.setMemberId(100018529L);
         remitDto2.setTargetCcy("USD");
         remitDto2.setRemitAmt(new BigDecimal("360"));
+        remitDto2.setFileName("文件2");
         batchRemitDtoList.add(remitDto2);
 
         Result<Boolean> result = batchRemitFacade.batchRemit(batchRemitDtoList, MDC.get(SystemMarker.TRACE_LOG_ID));

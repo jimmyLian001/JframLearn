@@ -5,7 +5,9 @@ import com.baofu.cbpayservice.biz.CbPayCmBiz;
 import com.baofu.cbpayservice.biz.CbPaySettlePrepaymentBiz;
 import com.baofu.cbpayservice.biz.models.CbPaySettleBo;
 import com.baofu.cbpayservice.dal.models.CbPaySettlePrepaymentDo;
+import com.baofu.cbpayservice.facade.models.CbPaySettlePrepaymentDto;
 import com.baofu.cbpayservice.manager.FiCbPaySettlePrepaymentManager;
+import com.system.commons.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +67,12 @@ public class CbPaySelectPrepaymentFacadeTest extends BaseTest {
         cbPaySettlePrepaymentDo.setIncomeNo("whdxnJNo");
         cbPaySettlePrepaymentDo.setPreStatus(2); // 2- 垫资已返还
         fiCbPaySettlePrepaymentManager.modifyByIncomeNo(cbPaySettlePrepaymentDo);
+    }
+
+    @Test
+    public void calculateSettleAmt() {
+        Result<CbPaySettlePrepaymentDto> result = cbPaySettlePrepaymentFacade.calculateSettleAmt("HH23003778", UUID.randomUUID().toString());
+        System.out.println(result);
     }
 
 

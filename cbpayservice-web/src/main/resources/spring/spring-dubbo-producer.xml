@@ -171,4 +171,12 @@
                    timeout="60000"
                    version="${cbpay.dubbo.version}"/>
 
+
+    <!-- 自动汇款配置服务 -->
+    <dubbo:service interface="com.baofu.cbpayservice.facade.FiCbpayRemitConfigFacade"
+                   ref="fiCbpayRemitConfigFacadeImpl"
+                   retries="0"
+                   timeout="60000"
+                   version="${cbpay.dubbo.version}"/>
+
 </beans>
