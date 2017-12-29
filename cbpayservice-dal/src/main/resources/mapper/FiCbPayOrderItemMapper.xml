@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baofu.cbpayservice.dal.mapper.FiCbPayOrderItemMapper" >
+  <resultMap id="BaseResultMap" type="com.baofu.cbpayservice.dal.models.FiCbPayOrderItemDo" >
+    <id     column="ID"                     property="id"                   jdbcType="BIGINT" />
+    <result column="ORDER_ID"               property="orderId"              jdbcType="BIGINT" />
+    <result column="COMMODITY_NAME"         property="commodityName"        jdbcType="VARCHAR" />
+    <result column="COMMODITY_PRICE"        property="commodityPrice"       jdbcType="DECIMAL" />
+    <result column="COMMODITY_AMOUNT"       property="commodityAmount"      jdbcType="INTEGER" />
+    <result column="CREATE_AT"              property="createAt"             jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY"              property="createBy"             jdbcType="VARCHAR" />
+    <result column="UPDATE_AT"              property="updateAt"             jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY"              property="updateBy"             jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="CommodityResultMap" type="com.baofu.cbpayservice.dal.models.FiCbPayOrderItemInfoDo" >
+    <result column="COMMODITY_NAME"       property="commodityName"        jdbcType="VARCHAR" />
+    <result column="COMMODITY_PRICE"      property="commodityPrice"       jdbcType="DECIMAL" />
+    <result column="COMMODITY_AMOUNT"     property="commodityAmount"      jdbcType="INTEGER" />
+  </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,
+        ORDER_ID,
+        COMMODITY_NAME,
+        COMMODITY_PRICE,
+        COMMODITY_AMOUNT,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY
+    </sql>
+
+    <sql id="Commodity_List">
+        COMMODITY_NAME,
+        COMMODITY_PRICE,
+        COMMODITY_AMOUNT
+    </sql>
+
+    <!--根据宝付订单号查询网关订单商品信息-->
+    <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        /*FiIcPayOrderItemMapper.select*/
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        FI_CBPAY_ORDER_ITEM
+        WHERE
+        ORDER_ID = #{orderId,jdbcType=BIGINT}
+    </select>
+
+    <!--根据宝付订单号查询网关订单商品信息-->
+    <select id="queryItemInfo" resultMap="CommodityResultMap" parameterType="java.lang.Long">
+        /*FiIcPayOrderItemMapper.queryItemInfo*/
+        SELECT
+        <include refid="Commodity_List"/>
+        FROM
+        FI_CBPAY_ORDER_ITEM
+        WHERE
+        ORDER_ID = #{orderId,jdbcType=BIGINT}
+    </select>
+
+    <!--根据宝付订单号查询订单商品信息   wdj 0503-->
+    <select id="queryItemsInfo" resultType="com.baofu.cbpayservice.dal.models.FiCbPayOrderItemsInfoDo">
+        SELECT GROUP_CONCAT(fi.COMMODITY_NAME) AS commodityName ,
+        GROUP_CONCAT(fi.COMMODITY_PRICE) AS commodityPrice,
+        GROUP_CONCAT(fi.COMMODITY_AMOUNT) AS commodityAmount
+        FROM FI_CBPAY_ORDER_ITEM fi WHERE fi.ORDER_ID=#{orderId,jdbcType=BIGINT}
+    </select>
+
+    <!--添加网关订单商品信息-->
+    <insert id="insert" parameterType="com.baofu.cbpayservice.dal.models.FiCbPayOrderItemDo">
+        /*FiIcPayOrderItemMapper.insert*/
+        INSERT INTO FI_CBPAY_ORDER_ITEM (
+        ORDER_ID,
+        COMMODITY_NAME,
+        COMMODITY_PRICE,
+        COMMODITY_AMOUNT,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY
+        )VALUES (
+        #{orderId,jdbcType=BIGINT},
+        #{commodityName,jdbcType=VARCHAR},
+        #{commodityPrice,jdbcType=DECIMAL},
+        #{commodityAmount,jdbcType=INTEGER},
+        NOW(),
+        #{createBy,jdbcType=VARCHAR},
+        NOW(),
+        #{updateBy,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!--批量添加网关订单商品信息-->
+    <insert id="batchInsert" parameterType="com.baofu.cbpayservice.dal.models.FiCbPayOrderItemDo">
+        /*FiIcPayOrderItemMapper.batchInsert*/
+        INSERT INTO FI_CBPAY_ORDER_ITEM (
+        ORDER_ID,
+        COMMODITY_NAME,
+        COMMODITY_PRICE,
+        COMMODITY_AMOUNT,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.orderId,jdbcType=BIGINT},
+            #{item.commodityName,jdbcType=VARCHAR},
+            #{item.commodityPrice,jdbcType=DECIMAL},
+            #{item.commodityAmount,jdbcType=INTEGER},
+            NOW(),
+            #{item.createBy,jdbcType=VARCHAR},
+            NOW(),
+            #{item.updateBy,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+</mapper>

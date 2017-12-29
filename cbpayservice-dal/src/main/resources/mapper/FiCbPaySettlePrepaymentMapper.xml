@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baofu.cbpayservice.dal.mapper.FiCbPaySettlePrepaymentMapper">
+
+    <resultMap id="BaseResultMap" type="com.baofu.cbpayservice.dal.models.CbPaySettlePrepaymentDo">
+        <id     column="ID"                       jdbcType="BIGINT"              property="id" />
+        <result column="MEMBER_ID"                jdbcType="BIGINT"             property="memberId" />
+        <result column="APPLY_ID"                 jdbcType="BIGINT"             property="applyId" />
+        <result column="INCOME_NO"                jdbcType="VARCHAR"            property="incomeNo" />
+        <result column="INCOME_AMT"               jdbcType="DECIMAL"            property="incomeAmt" />
+        <result column="INCOME_CCY"               jdbcType="CHAR"               property="incomeCcy" />
+        <result column="PRE_SETTLE_AMT"          jdbcType="DECIMAL"            property="preSettleAmt" />
+        <result column="PRE_SETTLE_RATE"         jdbcType="DECIMAL"            property="preSettleRate" />
+        <result column="PRE_SETTLE_FEE"          jdbcType="DECIMAL"            property="preSettleFee" />
+        <result column="CM_STATUS"                jdbcType="INTEGER"            property="cmStatus" />
+        <result column="PRE_STATUS"               jdbcType="INTEGER"            property="preStatus" />
+        <result column="REMARKS"                   jdbcType="VARCHAR"            property="remarks" />
+        <result column="AUTO_FLAG"                jdbcType="INTEGER"            property="autoFlag" />
+        <result column="CREATE_AT"                jdbcType="TIMESTAMP"          property="createAt" />
+        <result column="CREATE_BY"                jdbcType="VARCHAR"            property="createBy" />
+        <result column="UPDATE_AT"                jdbcType="TIMESTAMP"          property="updateAt" />
+        <result column="UPDATE_BY"                jdbcType="VARCHAR"            property="updateBy" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,
+        MEMBER_ID,
+        APPLY_ID,
+        INCOME_NO,
+        INCOME_AMT,
+        INCOME_CCY,
+        PRE_SETTLE_RATE,
+        PRE_SETTLE_AMT,
+        PRE_SETTLE_FEE,
+        CM_STATUS,
+        PRE_STATUS,
+        REMARKS,
+        AUTO_FLAG,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY
+    </sql>
+
+    <insert id="insert" parameterType="com.baofu.cbpayservice.dal.models.CbPaySettlePrepaymentDo">
+
+        /*FiCbPaySettlePrepaymentMapper.insert*/
+        insert into FI_CBPAY_SETTLE_PREPAYMENT (
+        MEMBER_ID,
+        APPLY_ID,
+        INCOME_NO,
+        INCOME_AMT,
+        INCOME_CCY,
+        PRE_SETTLE_RATE,
+        PRE_SETTLE_AMT,
+        SETTLE_ACC,
+        AUTO_FLAG,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY
+        )
+        values (
+        #{memberId,jdbcType=BIGINT},
+        #{applyId,jdbcType=BIGINT},
+        #{incomeNo,jdbcType=VARCHAR},
+        #{incomeAmt,jdbcType=DECIMAL},
+        #{incomeCcy,jdbcType=VARCHAR},
+        #{preSettleRate,jdbcType=DECIMAL},
+        #{preSettleAmt,jdbcType=DECIMAL},
+        #{settleAcc,jdbcType=VARCHAR},
+        #{autoFlag,jdbcType=INTEGER},
+        NOW(),
+        #{createBy,jdbcType=VARCHAR},
+        NOW(),
+        #{updateBy,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateByIncomeNo" parameterType="com.baofu.cbpayservice.dal.models.CbPaySettlePrepaymentDo">
+        /*FiCbPaySettlePrepaymentMapper.updateByIncomeNo*/
+        update FI_CBPAY_SETTLE_PREPAYMENT
+        <set>
+            <if test="preSettleFee != null">
+                PRE_SETTLE_FEE = #{preSettleFee,jdbcType=DECIMAL},
+            </if>
+            <if test="cmStatus != null">
+                CM_STATUS = #{cmStatus,jdbcType=INTEGER},
+            </if>
+            <if test="preStatus != null">
+                PRE_STATUS = #{preStatus,jdbcType=INTEGER},
+            </if>
+            <if test="updateBy != null">
+                UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                REMARKS = #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="autoFlag != null">
+                AUTO_FLAG = #{autoFlag,jdbcType=INTEGER},
+            </if>
+            UPDATE_AT = NOW()
+        </set>
+        where
+        INCOME_NO = #{incomeNo,jdbcType=VARCHAR}
+        AND CM_STATUS !=3
+        <if test="oldPreStatus != null">
+            AND PRE_STATUS = #{oldPreStatus,jdbcType=INTEGER}
+        </if>
+    </update>
+
+    <update id="updateByApplyId" parameterType="com.baofu.cbpayservice.dal.models.CbPaySettlePrepaymentDo">
+        /*FiCbPaySettlePrepaymentMapper.updateByIncomeNo*/
+        update FI_CBPAY_SETTLE_PREPAYMENT
+        <set>
+            <if test="preSettleFee != null">
+                PRE_SETTLE_FEE = #{preSettleFee,jdbcType=DECIMAL},
+            </if>
+            <if test="cmStatus != null">
+                CM_STATUS = #{cmStatus,jdbcType=INTEGER},
+            </if>
+            <if test="preStatus != null">
+                PRE_STATUS = #{preStatus,jdbcType=INTEGER},
+            </if>
+            <if test="remarks != null">
+                REMARKS = #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="autoFlag != null">
+                AUTO_FLAG = #{autoFlag,jdbcType=INTEGER},
+            </if>
+            <if test="updateBy != null">
+                UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            UPDATE_AT = NOW()
+        </set>
+        where
+        APPLY_ID = #{applyId,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据申请编号查询 -->
+    <select id="queryByIncomeNo" resultMap="BaseResultMap">
+        /*FiCbPaySettleApplyMapper.queryByIncomeNo*/
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM FI_CBPAY_SETTLE_PREPAYMENT F
+        WHERE F.INCOME_NO = #{incomeNo,jdbcType=VARCHAR}
+        AND F.CM_STATUS != 3
+    </select>
+
+    <!-- 根据申请编号查询 -->
+    <select id="queryByApplyId" resultMap="BaseResultMap">
+        /*FiCbPaySettleApplyMapper.queryByApplyId*/
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM FI_CBPAY_SETTLE_PREPAYMENT F
+        WHERE F.APPLY_ID = #{applyId,jdbcType=BIGINT}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baofu.cbpayservice.dal.mapper.CreateRemitMapper">
+
+    <!-- 查询电商数据 -->
+    <select id="queryElectronicCommerce" resultType="com.baofu.cbpayservice.dal.models.ElectronicCommerceDo">
+        /** CreateRemitMapper.queryElectronicCommerce **/
+        SELECT
+          fco.ORDER_ID,
+          fco.MEMBER_TRANS_ID memberTransId,
+          fco.ORDER_CCY orderCcy,
+          fco.ORDER_MONEY orderMoney,
+          fco.TRANS_TIME transTime,
+          fcoa.PAYEE_ID_TYPE payeeIdType,
+          fcoa.ID_HOLDER idHolder,
+          fcoa.ID_CARD_NO idCardNo,
+          fcoa.BANK_CARD_NO bankCardNo,
+          fcoa.MOBILE mobile,
+          GROUP_CONCAT(fcoi.COMMODITY_NAME) productName,
+          GROUP_CONCAT(fcoi.COMMODITY_AMOUNT) productNum,
+          GROUP_CONCAT(fcoi.COMMODITY_PRICE) productPrice,
+          fcol.LOGISTICS_COMPANY_NUMBER logisticsCompanyNumber,
+          fcol.LOGISTICS_NUMBER logisticsNumber,
+          fcol.CONSIGNEE_NAME consigneeName,
+          fcol.CONSIGNEE_CONTACT consigneeContact,
+          fcol.CONSIGNEE_ADDRESS consigneeAddress,
+          fcol.DELIVERY_DATE deliveryDate
+        FROM
+          FI_CBPAY_ORDER fco
+            LEFT JOIN FI_CBPAY_ORDER_ADDITION fcoa ON fco.ORDER_ID = fcoa.ORDER_ID
+            LEFT JOIN FI_CBPAY_ORDER_ITEM fcoi   ON fco.ORDER_ID = fcoi.ORDER_ID
+            LEFT JOIN FI_CBPAY_ORDER_LOGISTICS fcol  ON fcol.ORDER_ID = fco.ORDER_ID
+        WHERE fco.CAREER_TYPE='01'
+          AND fco.BATCH_FILE_ID =  #{fileBatchNo,jdbcType=BIGINT}
+        GROUP BY fco.ORDER_ID
+    </select>
+
+    <!-- 查询机票数据 -->
+    <select id="queryAirTickets" resultType="com.baofu.cbpayservice.dal.models.AirTicketsDo">
+         /** CreateRemitMapper.queryAirTickets **/
+         SELECT
+          fco.ORDER_ID,
+          fco.MEMBER_TRANS_ID memberTransId,
+          fco.ORDER_CCY orderCcy,
+          fco.ORDER_MONEY orderMoney,
+          fco.TRANS_TIME transTime,
+          fcoa.PAYEE_ID_TYPE payeeIdType,
+          fcoa.ID_HOLDER idHolder,
+          fcoa.ID_CARD_NO idCardNo,
+          fcoa.BANK_CARD_NO bankCardNo,
+          fcoa.MOBILE mobile,
+          GROUP_CONCAT(fcot.FLIGHT_NUMBER) flightNumber,
+          GROUP_CONCAT(fcot.ADDRESS) address,
+          GROUP_CONCAT(fcot.TAKEOFF_TIME) takeoffTime
+        FROM
+          FI_CBPAY_ORDER fco
+          LEFT JOIN FI_CBPAY_ORDER_ADDITION fcoa ON fco.ORDER_ID = fcoa.ORDER_ID
+          LEFT JOIN FI_CBPAY_ORDER_TICKETS fcot ON fco.ORDER_ID = fcot.ORDER_ID
+        WHERE fco.CAREER_TYPE='02'
+          AND fco.BATCH_FILE_ID =  #{fileBatchNo,jdbcType=BIGINT}
+        GROUP BY fco.ORDER_ID
+    </select>
+
+    <!-- 查询留学数据 -->
+    <select id="queryStudyAbroad" resultType="com.baofu.cbpayservice.dal.models.StudyAbroadDo">
+        /** CreateRemitMapper.queryStudyAbroad **/
+        SELECT 
+          fco.ORDER_ID,
+          fco.BATCH_FILE_ID,
+          fco.MEMBER_TRANS_ID memberTransId,
+          fco.ORDER_CCY orderCcy,
+          fco.ORDER_MONEY orderMoney,
+          fco.TRANS_TIME transTime,
+          fcoa.PAYEE_ID_TYPE payeeIdType,
+          fcoa.ID_HOLDER idHolder,
+          fcoa.ID_CARD_NO idCardNo,
+          fcoa.BANK_CARD_NO bankCardNo,
+          fcoa.MOBILE mobile,
+          GROUP_CONCAT(fcosa.SCHOOL_COUNTRY_CODE) schoolCountryCode,
+          GROUP_CONCAT(fcosa.SCHOOL_NAME) schoolName,
+          GROUP_CONCAT(fcosa.STUDENT_NAME) studentName, 
+          GROUP_CONCAT(fcosa.STUDENT_ID) studentId,
+          GROUP_CONCAT(fcosa.ADMISSION_NOTICE_ID) admissionNoticeId
+        FROM
+          FI_CBPAY_ORDER fco 
+          LEFT JOIN FI_CBPAY_ORDER_ADDITION fcoa ON fco.ORDER_ID = fcoa.ORDER_ID
+          LEFT JOIN FI_CBPAY_ORDER_STUDY_ABROAD fcosa ON fco.ORDER_ID = fcosa.ORDER_ID
+        WHERE fco.CAREER_TYPE='03'
+          AND fco.BATCH_FILE_ID =  #{fileBatchNo,jdbcType=BIGINT}
+        GROUP BY fco.ORDER_ID
+    </select>
+
+    <!-- 查询酒店数据 -->
+    <select id="queryHotel" resultType="com.baofu.cbpayservice.dal.models.HotelDo">
+        /** CreateRemitMapper.queryHotel **/
+         SELECT
+          fco.ORDER_ID,
+          fco.BATCH_FILE_ID,
+          fco.MEMBER_TRANS_ID memberTransId,
+          fco.ORDER_CCY orderCcy,
+          fco.ORDER_MONEY orderMoney,
+          fco.TRANS_TIME transTime,
+          fcoa.PAYEE_ID_TYPE payeeIdType,
+          fcoa.ID_HOLDER idHolder,
+          fcoa.ID_CARD_NO idCardNo,
+          fcoa.BANK_CARD_NO bankCardNo,
+          fcoa.MOBILE mobile,
+          GROUP_CONCAT(fcoh.HOTEL_COUNTRY_CODE) hotelCountryCode,
+          GROUP_CONCAT(fcoh.HOTEL_NAME) hotelName,
+          GROUP_CONCAT(fcoh.CHECK_IN_DATE) checkInDate,
+          GROUP_CONCAT(fcoh.NIGHT_COUNT) nightCount
+        FROM
+          FI_CBPAY_ORDER fco
+          LEFT JOIN FI_CBPAY_ORDER_ADDITION fcoa ON fco.ORDER_ID = fcoa.ORDER_ID
+          LEFT JOIN FI_CBPAY_ORDER_HOTEL fcoh ON fco.ORDER_ID = fcoh.ORDER_ID
+        WHERE fco.CAREER_TYPE='04'
+          AND fco.BATCH_FILE_ID =  #{fileBatchNo,jdbcType=BIGINT}
+        GROUP BY fco.ORDER_ID;
+    </select>
+
+    <!-- 查询酒店数据 -->
+    <select id="queryTourism" resultType="com.baofu.cbpayservice.dal.models.TourismDo">
+        /** CreateRemitMapper.queryTourism **/
+         SELECT
+          fco.ORDER_ID,
+          fco.BATCH_FILE_ID,
+          fco.MEMBER_TRANS_ID memberTransId,
+          fco.ORDER_CCY orderCcy,
+          fco.ORDER_MONEY orderMoney,
+          fco.TRANS_TIME transTime,
+          fcoa.PAYEE_ID_TYPE payeeIdType,
+          fcoa.ID_HOLDER idHolder,
+          fcoa.ID_CARD_NO idCardNo,
+          fcoa.BANK_CARD_NO bankCardNo,
+          fcoa.MOBILE mobile,
+          GROUP_CONCAT(fcot.TRAVEL_AGENCY_NAME) travelAgencyName,
+          GROUP_CONCAT(fcot.TRAVEL_COUNTRY_CODE) travelCountryCode,
+          GROUP_CONCAT(fcot.TRIP_DATE) tripDate,
+          GROUP_CONCAT(fcot.TOUR_DAYS) tourDays
+        FROM
+          FI_CBPAY_ORDER fco
+          LEFT JOIN FI_CBPAY_ORDER_ADDITION fcoa ON fco.ORDER_ID = fcoa.ORDER_ID
+          LEFT JOIN FI_CBPAY_ORDER_TOURISM fcot ON fco.ORDER_ID = fcot.ORDER_ID
+        WHERE fco.CAREER_TYPE='05'
+          AND fco.BATCH_FILE_ID =  #{fileBatchNo,jdbcType=BIGINT}
+        GROUP BY fco.ORDER_ID;
+    </select>
+</mapper>

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baofu.cbpayservice.dal.mapper.FiCbPaySettleMapper">
+
+    <resultMap id="BaseResultMap" type="com.baofu.cbpayservice.dal.models.FiCbPaySettleDo">
+        <id     column="ID"                       jdbcType="BIGINT"             property="id" />
+        <result column="MEMBER_ID"                jdbcType="BIGINT"             property="memberId" />
+        <result column="ORDER_ID"                 jdbcType="BIGINT"             property="orderId" />
+        <result column="CHANNEL_ID"               jdbcType="BIGINT"             property="channelId" />
+        <result column="INCOME_NO"                jdbcType="VARCHAR"            property="incomeNo" />
+        <result column="INCOME_AMT"               jdbcType="DECIMAL"            property="incomeAmt" />
+        <result column="REAL_INCOME_AMT"         jdbcType="DECIMAL"            property="realIncomeAmt" />
+        <result column="INCOME_CCY"               jdbcType="CHAR"               property="incomeCcy" />
+        <result column="INCOME_AT"                jdbcType="TIMESTAMP"          property="incomeAt" />
+        <result column="INCOME_STATUS"            jdbcType="INTEGER"            property="incomeStatus" />
+        <result column="IS_INCOME"                jdbcType="INTEGER"            property="isIncome" />
+        <result column="SETTLE_AMT"               jdbcType="DECIMAL"            property="settleAmt" />
+        <result column="SETTLE_CCY"               jdbcType="CHAR"               property="settleCcy" />
+        <result column="SETTLE_RATE"              jdbcType="DECIMAL"            property="settleRate" />
+        <result column="SETTLE_STATUS"            jdbcType="INTEGER"            property="settleStatus" />
+        <result column="REMARKS"                  jdbcType="VARCHAR"            property="remarks" />
+        <result column="ERROR_MSG"                jdbcType="VARCHAR"            property="errorMsg" />
+        <result column="INCOME_ACCOUNT_NO"        jdbcType="VARCHAR"            property="incomeAccountNo" />
+        <result column="INCOME_ACCOUNT_NAME"      jdbcType="VARCHAR"            property="incomeAccountName" />
+        <result column="INCOME_ADDRESS"           jdbcType="VARCHAR"            property="incomeAddress" />
+        <result column="INCOME_FEE"               jdbcType="DECIMAL"            property="incomeFee" />
+        <result column="CREATE_AT"                jdbcType="TIMESTAMP"          property="createAt" />
+        <result column="CREATE_BY"                jdbcType="VARCHAR"            property="createBy" />
+        <result column="UPDATE_AT"                jdbcType="TIMESTAMP"          property="updateAt" />
+        <result column="UPDATE_BY"                jdbcType="VARCHAR"            property="updateBy" />
+        <result column="SETTLE_AT"                jdbcType="TIMESTAMP"          property="settleAt" />
+        <result column="SETTLE_COMPLETE_AT"       jdbcType="TIMESTAMP"          property="settleCompleteAt" />
+        <result column="SETTLE_FLAG"              jdbcType="INTEGER"            property="settleFlag" />
+        <result column="FILE_STATUS"              jdbcType="INTEGER"            property="fileStatus" />
+        <result column="BANK_NAME"                jdbcType="VARCHAR"            property="bankName" />
+        <result column="FILE_BATCH_NO"            jdbcType="BIGINT"             property="fileBatchNo" />
+        <result column="SETTLE_FEE"               jdbcType="DECIMAL"            property="settleFee" />
+        <result column="MEMBER_SETTLE_AMT"        jdbcType="DECIMAL"            property="memberSettleAmt"/>
+        <result column="MEMBER_SETTLE_RATE"       jdbcType="DECIMAL"            property="memberSettleRate"/>
+        <result column="PROFIT_AND_LOSS"          jdbcType="DECIMAL"            property="profitAndLoss"/>
+        <result column="CM_AUDIT_STATE"           jdbcType="BIGINT"             property="cmAuditState"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,
+        MEMBER_ID,
+        ORDER_ID,
+        CHANNEL_ID,
+        INCOME_NO,
+        INCOME_AMT,
+        REAL_INCOME_AMT,
+        INCOME_CCY,
+        INCOME_AT,
+        INCOME_STATUS,
+        IS_INCOME,
+        SETTLE_AMT,
+        SETTLE_CCY,
+        SETTLE_RATE,
+        SETTLE_STATUS,
+        REMARKS,
+        ERROR_MSG,
+        INCOME_ACCOUNT_NO,
+        INCOME_ACCOUNT_NAME,
+        INCOME_ADDRESS,
+        INCOME_FEE,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY,
+        SETTLE_AT,
+        SETTLE_COMPLETE_AT,
+        SETTLE_FLAG,
+        BANK_NAME,
+        FILE_STATUS,
+        SETTLE_COMPLETE_AT,
+        FILE_BATCH_NO,
+        SETTLE_FEE,
+        MEMBER_SETTLE_AMT,
+        MEMBER_SETTLE_RATE,
+        PROFIT_AND_LOSS,
+        CM_AUDIT_STATE
+    </sql>
+
+    <insert id="insert" parameterType="com.baofu.cbpayservice.dal.models.FiCbPaySettleDo">
+
+        /*FiCbPaySettleMapper.insert*/
+        insert into FI_CBPAY_SETTLE (
+        MEMBER_ID,
+        ORDER_ID,
+        CHANNEL_ID,
+        INCOME_NO,
+        INCOME_AMT,
+        INCOME_CCY,
+        INCOME_AT,
+        INCOME_STATUS,
+        IS_INCOME,
+        SETTLE_STATUS,
+        INCOME_ACCOUNT_NO,
+        INCOME_ACCOUNT_NAME,
+        INCOME_ADDRESS,
+        INCOME_FEE,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY,
+        SETTLE_FLAG,
+        BANK_NAME,
+        REMARKS,
+        RELIEVE_AT,
+		FILE_BATCH_NO,
+        CM_AUDIT_STATE,
+        FILE_STATUS
+        )
+        values (
+        #{memberId,jdbcType=BIGINT},
+        #{orderId,jdbcType=BIGINT},
+        #{channelId,jdbcType=BIGINT},
+        #{incomeNo,jdbcType=VARCHAR},
+        #{incomeAmt,jdbcType=DECIMAL},
+        #{incomeCcy,jdbcType=CHAR},
+        #{incomeAt,jdbcType=TIMESTAMP},
+        #{incomeStatus,jdbcType=INTEGER},
+        #{isIncome,jdbcType=INTEGER},
+        #{settleStatus,jdbcType=INTEGER},
+        #{incomeAccountNo,jdbcType=VARCHAR},
+        #{incomeAccountName,jdbcType=VARCHAR},
+        #{incomeAddress,jdbcType=VARCHAR},
+        #{incomeFee,jdbcType=DECIMAL},
+        NOW(),
+        #{createBy,jdbcType=VARCHAR},
+        NOW(),
+        #{updateBy,jdbcType=VARCHAR},
+        #{settleFlag,jdbcType=INTEGER},
+        #{bankName,jdbcType=VARCHAR},
+        #{remarks,jdbcType=VARCHAR},
+        #{relieveAt,jdbcType=TIMESTAMP},
+		#{fileBatchNo,jdbcType=BIGINT},
+        #{cmAuditState,jdbcType=BIGINT},
+        #{fileStatus,jdbcType=INTEGER}
+        )
+    </insert>
+
+    <!-- 根据订单号更新-->
+    <update id="updateByKeySelective" parameterType="com.baofu.cbpayservice.dal.models.FiCbPaySettleDo">
+        /*FiCbPaySettleMapper.updateByPrimaryKeySelective*/
+        update FI_CBPAY_SETTLE
+        <set>
+            <if test="memberId != null">
+                MEMBER_ID = #{memberId,jdbcType=BIGINT},
+            </if>
+            <if test="incomeStatus != null and incomeStatus != 0">
+                INCOME_STATUS = #{incomeStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isIncome != null">
+                IS_INCOME = #{isIncome,jdbcType=INTEGER},
+            </if>
+            <if test="settleAmt != null">
+                SETTLE_AMT = #{settleAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="realIncomeAmt != null">
+                REAL_INCOME_AMT = #{realIncomeAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="settleCcy != null">
+                SETTLE_CCY = #{settleCcy,jdbcType=CHAR},
+            </if>
+            <if test="settleRate != null">
+                SETTLE_RATE = #{settleRate,jdbcType=DECIMAL},
+            </if>
+            <if test="settleStatus != null and settleStatus != 0 ">
+                SETTLE_STATUS = #{settleStatus,jdbcType=INTEGER},
+            </if>
+            <if test="remarks != null">
+                REMARKS = #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="errorMsg != null">
+                ERROR_MSG = #{errorMsg,jdbcType=VARCHAR},
+            </if>
+            <if test="incomeAccountNo != null">
+                INCOME_ACCOUNT_NO = #{incomeAccountNo,jdbcType=VARCHAR},
+            </if>
+            <if test="incomeAccountName != null">
+                INCOME_ACCOUNT_NAME = #{incomeAccountName,jdbcType=VARCHAR},
+            </if>
+            <if test="incomeAddress != null">
+                INCOME_ADDRESS = #{incomeAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="incomeFee != null">
+                INCOME_FEE = #{incomeFee,jdbcType=DECIMAL},
+            </if>
+            <if test="updateBy != null">
+                UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="settleAt != null">
+                SETTLE_AT = #{settleAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="settleCompleteAt != null">
+                SETTLE_COMPLETE_AT = #{settleCompleteAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="relieveAt != null">
+                RELIEVE_AT = #{relieveAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fileBatchNo != null">
+                FILE_BATCH_NO = #{fileBatchNo,jdbcType=BIGINT},
+            </if>
+            <if test="fileStatus != null and fileStatus != 0">
+                FILE_STATUS = #{fileStatus,jdbcType=INTEGER},
+            </if>
+            <if test="settleFlag != null and settleFlag != 0">
+                SETTLE_FLAG = #{settleFlag,jdbcType=INTEGER},
+            </if>
+            <if test="settleFee != null">
+                SETTLE_FEE = #{settleFee,jdbcType=DECIMAL},
+            </if>
+            <if test="memberSettleAmt!=null">
+                MEMBER_SETTLE_AMT = #{memberSettleAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="memberSettleRate!=null">
+                MEMBER_SETTLE_RATE = #{memberSettleRate,jdbcType=DECIMAL},
+            </if>
+            <if test="profitAndLoss!=null">
+                PROFIT_AND_LOSS = #{profitAndLoss,jdbcType=DECIMAL},
+            </if>
+            <if test="cmAuditState != null">
+                CM_AUDIT_STATE = #{cmAuditState,jdbcType=INTEGER},
+            </if>
+            UPDATE_AT = NOW()
+        </set>
+        where
+          ORDER_ID = #{orderId,jdbcType=BIGINT}
+        <if test="oldIncomeStatus != null and oldIncomeStatus !=0">
+            AND INCOME_STATUS = #{oldIncomeStatus,jdbcType=INTEGER}
+        </if>
+        <if test="oldSettleStatus != null and oldSettleStatus !=0">
+            AND SETTLE_STATUS = #{oldSettleStatus,jdbcType=INTEGER}
+        </if>
+    </update>
+
+    <!--根据订单号更新订单风控状态-->
+    <update id="updateByOrderId">
+        UPDATE
+          BAOFOO_FI.FI_CBPAY_SETTLE_ORDER
+        SET
+          RISK_FLAG=#{riskFlag}
+        WHERE
+          ORDER_ID=#{orderId}
+    </update>
+
+    <!-- 根据渠道号和商户外币汇入编号查询结汇信息 -->
+    <select id="queryByInNoAndChannelId" resultMap="BaseResultMap">
+        /*FiCbPaySettleMapper.queryByInNoAndChannelId*/
+        SELECT
+          <include refid="Base_Column_List"/>
+        FROM
+          FI_CBPAY_SETTLE
+        WHERE
+          CHANNEL_ID = #{channelId,jdbcType=BIGINT}
+        AND
+          INCOME_NO = #{incomeNo,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据结汇订单编号查询结汇信息 -->
+    <select id="queryByOrderId" resultMap="BaseResultMap">
+        /*FiCbPaySettleMapper.queryByOrderId*/
+        SELECT
+          <include refid="Base_Column_List"/>
+        FROM
+          FI_CBPAY_SETTLE
+        WHERE
+          ORDER_ID = #{orderId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据文件批次号查询结汇信息 -->
+    <select id="queryByFileBatchNo" resultMap="BaseResultMap">
+
+        /*FiCbPaySettleMapper.queryByFileBatchNo*/
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM FI_CBPAY_SETTLE F
+        WHERE F.FILE_BATCH_NO = #{fileBatchNo,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据结汇订单编号查询结汇信息 -->
+    <select id="queryByIncomeNo" resultMap="BaseResultMap">
+        /*FiCbPaySettleMapper.queryByIncomeNo*/
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+          FI_CBPAY_SETTLE
+        WHERE
+          INCOME_NO = #{incomeNo,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询文件批次号-->
+    <select id="queryBatchNos" resultType="java.lang.String">
+        /*FiCbPaySettleMapper.queryBatchNos*/
+        SELECT fs.FILE_BATCH_NO FROM BAOFOO_FI.FI_CBPAY_SETTLE fs WHERE fs.FILE_STATUS='2'
+        <if test="beginDate != null and beginDate != '' and endDate != null and endDate != ''  ">
+            <![CDATA[
+               AND fs.CREATE_AT >= #{beginDate}
+               AND fs.CREATE_AT < #{endDate}
+            ]]>
+        </if>
+    </select>
+
+</mapper>

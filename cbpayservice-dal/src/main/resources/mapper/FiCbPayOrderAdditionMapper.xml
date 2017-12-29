@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baofu.cbpayservice.dal.mapper.FiCbPayOrderAdditionMapper" >
+  <resultMap id="BaseResultMap" type="com.baofu.cbpayservice.dal.models.FiCbPayOrderAdditionDo" >
+    <id     column="ID"                     property="id"                   jdbcType="BIGINT"/>
+    <result column="ORDER_ID"               property="orderId"              jdbcType="BIGINT" />
+    <result column="CLIENT_IP"              property="clientIp"             jdbcType="VARCHAR" />
+    <result column="NOTICE_TYPE"            property="notifyType"           jdbcType="VARCHAR" />
+    <result column="ADDITION_INFO"          property="additionInfo"         jdbcType="VARCHAR" />
+    <result column="CLIENT_IP"              property="clientIp"             jdbcType="VARCHAR" />
+    <result column="ID_CARD_NO"             property="idCardNo"             jdbcType="VARCHAR" />
+    <result column="ID_HOLDER"              property="idHolder"             jdbcType="VARCHAR" />
+    <result column="MOBILE"                 property="mobile"               jdbcType="VARCHAR" />
+    <result column="BANK_CARD_NO"           property="bankCardNo"           jdbcType="VARCHAR" />
+    <result column="CREATE_AT"              property="createAt"             jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY"              property="createBy"             jdbcType="VARCHAR" />
+    <result column="UPDATE_AT"              property="updateAt"             jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY"              property="updateBy"             jdbcType="VARCHAR" />
+    <result column="PAYEE_ID_TYPE"          property="payeeIdType"          jdbcType="INTEGER" />
+  </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,
+        ORDER_ID,
+        CLIENT_IP,
+        ADDITION_INFO,
+        ID_CARD_NO,
+        ID_HOLDER,
+        MOBILE,
+        BANK_CARD_NO,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY
+    </sql>
+
+    <!--根据宝付订单号查询网关订单附加信息-->
+    <select id="selectOrderAdditionByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        /*FiIcpayOrderAdditionMapper.selectOrderAdditionByOrderId*/
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        FI_CBPAY_ORDER_ADDITION
+        WHERE
+        ORDER_ID = #{orderId,jdbcType=BIGINT}
+    </select>
+
+    <!--新增数据至跨境人民币网关订单附加信息表-->
+    <insert id="insert" parameterType="com.baofu.cbpayservice.dal.models.FiCbPayOrderAdditionDo">
+        /*FiIcPayOrderAdditionMapper.insert*/
+        INSERT INTO FI_CBPAY_ORDER_ADDITION (
+        ORDER_ID,
+        CLIENT_IP,
+        ADDITION_INFO,
+        ID_CARD_NO,
+        ID_HOLDER,
+        MOBILE,
+        BANK_CARD_NO,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY,
+        IS_BANK_ACCOUNT,
+        PAYEE_ID_TYPE
+        ) VALUES (
+        #{orderId,jdbcType=BIGINT},
+        #{clientIp,jdbcType=VARCHAR},
+        #{additionInfo,jdbcType=VARCHAR},
+        #{idCardNo,jdbcType=VARCHAR},
+        #{idHolder,jdbcType=VARCHAR},
+        #{mobile,jdbcType=VARCHAR},
+        #{bankCardNo,jdbcType=VARCHAR},
+        NOW(),
+        #{createBy,jdbcType=VARCHAR},
+        NOW(),
+        #{updateBy,jdbcType=VARCHAR},
+        #{isBankAccount,jdbcType=VARCHAR},
+        #{payeeIdType,jdbcType=INTEGER}
+        )
+    </insert>
+
+    <!--批量新增数据至跨境人民币网关订单附加信息表-->
+    <insert id="batchInsert" parameterType="com.baofu.cbpayservice.dal.models.FiCbPayOrderAdditionDo">
+        /*FiCbPayOrderAdditionMapper.batchInsert*/
+        INSERT INTO FI_CBPAY_ORDER_ADDITION (
+        ORDER_ID,
+        CLIENT_IP,
+        ADDITION_INFO,
+        ID_CARD_NO,
+        ID_HOLDER,
+        MOBILE,
+        BANK_CARD_NO,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY,
+        PAYEE_ID_TYPE,
+        IS_BANK_ACCOUNT
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.orderId,jdbcType=BIGINT},
+            #{item.clientIp,jdbcType=VARCHAR},
+            #{item.additionInfo,jdbcType=VARCHAR},
+            #{item.idCardNo,jdbcType=VARCHAR},
+            #{item.idHolder,jdbcType=VARCHAR},
+            #{item.mobile,jdbcType=VARCHAR},
+            #{item.bankCardNo,jdbcType=VARCHAR},
+            NOW(),
+            #{item.createBy,jdbcType=VARCHAR},
+            NOW(),
+            #{item.updateBy,jdbcType=VARCHAR},
+            #{item.payeeIdType,jdbcType=INTEGER},
+            #{item.isBankAccount,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+</mapper>

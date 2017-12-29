@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>cbpayservice</artifactId>
+        <groupId>com.baofu.cbpayservice</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>cbpayservice-manager</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>cbpayservice-manager</name>
+
+    <dependencies>
+        <!--内部项目导入-->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>cbpayservice-dal</artifactId>
+        </dependency>
+        <!--内部项目导入-->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>cbpayservice-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baofoo.ps</groupId>
+            <artifactId>baofoo-common-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.system.logback</groupId>
+            <artifactId>logback</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baofoo.cache</groupId>
+            <artifactId>cache-facade</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baofu.customs</groupId>
+            <artifactId>customs-facade</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

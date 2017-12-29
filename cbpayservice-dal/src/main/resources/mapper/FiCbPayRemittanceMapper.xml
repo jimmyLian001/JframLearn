@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baofu.cbpayservice.dal.mapper.FiCbPayRemittanceMapper">
+
+    <resultMap id="RemittanceResultMap" type="com.baofu.cbpayservice.dal.models.FiCbPayRemittanceDo">
+        <id column="ID"                         property="id"               jdbcType="BIGINT"/>
+        <result column="BATCH_NO"               property="batchNo"          jdbcType="VARCHAR"/>
+        <result column="MEMBER_NO"              property="memberNo"         jdbcType="BIGINT"/>
+        <result column="TRANS_MONEY"            property="transMoney"       jdbcType="DECIMAL"/>
+        <result column="TRANS_CCY"              property="transCcy"         jdbcType="VARCHAR"/>
+        <result column="TRANS_FEE"              property="transFee"         jdbcType="DECIMAL"/>
+        <result column="SWIFT_CODE"             property="swiftCode"        jdbcType="VARCHAR"/>
+        <result column="TRANS_TYPE"             property="transType"        jdbcType="VARCHAR"/>
+        <result column="ORDER_TYPE"             property="orderType"        jdbcType="VARCHAR"/>
+        <result column="CHANNEL_ID"             property="channelId"        jdbcType="BIGINT"/>
+        <result column="AUDIT_STATUS"           property="auditStatus"      jdbcType="VARCHAR"/>
+        <result column="CHANNEL_STATUS"         property="channelStatus"    jdbcType="VARCHAR"/>
+        <result column="CREATE_AT"              property="createAt"         jdbcType="TIMESTAMP"/>
+        <result column="CREATE_BY"              property="createBy"         jdbcType="VARCHAR"/>
+        <result column="UPDATE_AT"              property="updateAt"         jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_BY"              property="updateBy"         jdbcType="VARCHAR"/>
+        <result column="BANK_CARD_NO"           property="bankCardNo"       jdbcType="VARCHAR"/>
+        <result column="AUDIT_DATE"             property="auditDate"        jdbcType="TIMESTAMP"/>
+        <result column="AUDIT_BY"               property="auditBy"          jdbcType="VARCHAR"/>
+        <result column="CHANNEL_DATE"           property="channelDate"      jdbcType="TIMESTAMP"/>
+        <result column="SYSTEM_MONEY"           property="systemMoney"      jdbcType="DECIMAL"/>
+        <result column="SYSTEM_CCY"             property="systemCcy"        jdbcType="VARCHAR"/>
+        <result column="SYSTEM_RATE"            property="systemRate"       jdbcType="DECIMAL"/>
+        <result column="REAL_RATE"              property="realRate"          jdbcType="DECIMAL"/>
+        <result column="APPLY_STATUS"           property="applyStatus"      jdbcType="VARCHAR"/>
+        <result column="REMARKS"                property="remarks"          jdbcType="VARCHAR"/>
+        <result column="CM_STATUS"              property="cmStatus"         jdbcType="VARCHAR"/>
+        <result column="BUSINESS_NO"            property="businessNo"       jdbcType="VARCHAR"/>
+        <result column="PURCHASE_STATUS"        property="purchaseStatus"   jdbcType="INTEGER"/>
+        <result column="BANK_FEE"               property="bankFee"          jdbcType="DECIMAL"/>
+        <result column="FEE_STATUS"             property="feeStatus"        jdbcType="INTEGER"/>
+        <result column="EXCHANGE_SUCC_DATE"     property="exchangeSuccDate" jdbcType="TIMESTAMP"/>
+        <result column="REMIT_SUCC_DATE"        property="remitSuccDate"    jdbcType="TIMESTAMP"/>
+        <result column="BANK_BATCH_NO"          property="bankBatchNo"      jdbcType="VARCHAR"/>
+        <result column="REAL_MONEY"             property="realMoney"        jdbcType="DECIMAL"/>
+        <result column="EXCHANGE_TYPE"          property="exchangeType"     jdbcType="INTEGER" />
+        <result column="REMIT_MONEY"            property="remitMoney"       jdbcType="DECIMAL" />
+    </resultMap>
+
+    <resultMap id="RemittanceDetailResultMap" type="com.baofu.cbpayservice.dal.models.FiCbPayRemittanceDetailDo">
+        <id column="ID"                         property="id"                   jdbcType="BIGINT"/>
+        <result column="MEMBER_ID"              property="memberId"             jdbcType="BIGINT"/>
+        <result column="ORDER_ID"               property="orderId"              jdbcType="BIGINT"/>
+        <result column="TRANS_DATE"             property="transDate"            jdbcType="TIMESTAMP"/>
+        <result column="PAYMENT_NAME"           property="paymentName"          jdbcType="VARCHAR"/>
+        <result column="PAYMENT_ID_TYPE"        property="paymentIdType"        jdbcType="VARCHAR"/>
+        <result column="PAYMENT_ID_CARD_NO"     property="paymentIdCardNo"      jdbcType="VARCHAR"/>
+        <result column="PAYMENT_BANK_CARD_NO"   property="paymentBankCardNo"    jdbcType="VARCHAR"/>
+        <result column="BUY_SELL_FLAG"          property="buySellFlag"          jdbcType="VARCHAR"/>
+        <result column="ORDER_MONEY"            property="orderMoney"           jdbcType="DECIMAL"/>
+        <result column="ORDER_CCY"              property="orderCcy"             jdbcType="VARCHAR"/>
+        <result column="COMMODITY_INFO"         property="commodityInfo"        jdbcType="VARCHAR"/>
+        <result column="APPLY_BY"               property="applyBy"              jdbcType="VARCHAR"/>
+        <result column="APPLY_TEL"              property="applyTel"             jdbcType="VARCHAR"/>
+        <result column="PAY_TYPE"               property="payType"              jdbcType="VARCHAR"/>
+        <result column="ORDER_ATTRIBUTE"        property="orderAttribute"       jdbcType="VARCHAR"/>
+        <result column="SYSTEM_MONEY"           property="systemMoney"          jdbcType="DECIMAL"/>
+        <result column="SYSTEM_CCY"             property="systemCcy"            jdbcType="VARCHAR"/>
+        <result column="SYSTEM_RATE"            property="systemRate"           jdbcType="DECIMAL"/>
+        <result column="REMARKS"                property="remarks"              jdbcType="VARCHAR"/>
+        <result column="CREATE_AT"              property="createAt"             jdbcType="TIMESTAMP"/>
+        <result column="CREATE_BY"              property="createBy"             jdbcType="VARCHAR"/>
+        <result column="UPDATE_AT"              property="updateAt"             jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_BY"              property="updateBy"             jdbcType="VARCHAR"/>
+        <result column="REMITTANCE_BATCH_NO"    property="remittanceBatchNo"    jdbcType="VARCHAR"/>
+        <result column="REQUEST_NO"             property="requestNo"            jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="RemittanceAdditionResultMap" type="com.baofu.cbpayservice.dal.models.FiCbPayRemittanceAdditionDo">
+        <result column="MEMBER_MO"              property="memberNo"             jdbcType="BIGINT"/>
+        <result column="BATCH_NO"               property="batchNo"              jdbcType="VARCHAR"/>
+        <result column="OCEANIC"                property="oceanic"              jdbcType="VARCHAR"/>
+        <result column="ENTITY_NO"              property="entityNo"             jdbcType="VARCHAR"/>
+        <result column="COST_BORNE"             property="costBorne"            jdbcType="VARCHAR"/>
+        <result column="DFS_FILE_ID"            property="dfsFileId"            jdbcType="BIGINT"/>
+        <result column="CREATE_AT"              property="createAt"             jdbcType="TIMESTAMP"/>
+        <result column="CREATE_BY"              property="createBy"             jdbcType="VARCHAR"/>
+        <result column="UPDATE_AT"              property="updateAt"             jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_BY"              property="updateBy"             jdbcType="VARCHAR"/>
+        <result column="BANK_NAME"              property="bankName"             jdbcType="VARCHAR"/>
+        <result column="BANK_ACC_NAME"          property="bankAccName"          jdbcType="VARCHAR"/>
+        <result column="BANK_ACC_NO"            property="bankAccNo"            jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="remittance_Column_List">
+        ID,
+        BATCH_NO,
+        MEMBER_NO,
+        TRANS_MONEY,
+        TRANS_CCY,
+        TRANS_FEE,
+        SWIFT_CODE,
+        TRANS_TYPE,
+        ORDER_TYPE,
+        CHANNEL_ID,
+        AUDIT_STATUS,
+        CHANNEL_STATUS,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY,
+        BANK_CARD_NO,
+        AUDIT_DATE,
+        AUDIT_BY,
+        CHANNEL_DATE,
+        SYSTEM_MONEY,
+        SYSTEM_CCY,
+        SYSTEM_RATE,
+        CM_STATUS,
+        BUSINESS_NO,
+        PURCHASE_STATUS,
+        BANK_FEE,
+        FEE_STATUS,
+        REMARKS,
+        EXCHANGE_SUCC_DATE,
+        REMIT_SUCC_DATE,
+        EXCHANGE_TYPE,
+        BANK_BATCH_NO,
+        REAL_MONEY,
+        REMIT_MONEY,
+        REAL_RATE
+    </sql>
+
+    <sql id="remittanceDetail_Column_List">
+        ID,
+        MEMBER_ID,
+        ORDER_ID,
+        TRANS_DATE,
+        PAYMENT_NAME,
+        PAYMENT_ID_TYPE,
+        PAYMENT_ID_CARD_NO,
+        PAYMENT_BANK_CARD_NO,
+        BUY_SELL_FLAG,
+        ORDER_MONEY,
+        ORDER_CCY,
+        COMMODITY_INFO,
+        APPLY_BY,
+        APPLY_TEL,
+        PAY_TYPE,
+        ORDER_ATTRIBUTE,
+        SYSTEM_MONEY,
+        SYSTEM_CCY,
+        SYSTEM_RATE,
+        REMARKS,
+        CREATE_AT,
+        UPDATE_AT,
+        CREATE_BY,
+        UPDATE_BY,
+        REMITTANCE_BATCH_NO,
+        REQUEST_NO
+    </sql>
+
+    <sql id="remittanceAddition_Column_List">
+        MEMBER_NO,
+        BATCH_NO,
+        COST_BORNE,
+        DFS_FILE_ID,
+        OCEANIC,
+        ENTITY_NO,
+        CREATE_AT,
+        UPDATE_AT,
+        CREATE_BY,
+        UPDATE_BY,
+        BANK_NAME,
+        BANK_ACC_NAME,
+        BANK_ACC_NO
+    </sql>
+
+    <!--跨境人民汇款订单新增-->
+    <insert id="createRemittanceOrder" parameterType="com.baofu.cbpayservice.dal.models.FiCbPayRemittanceDo">
+        /*FiCbPayRemittanceMapper.createRemittanceOrder*/
+        INSERT INTO FI_CBPAY_REMITTANCE (
+        BATCH_NO,
+        MEMBER_NO,
+        TRANS_MONEY,
+        TRANS_CCY,
+        TRANS_FEE,
+        SWIFT_CODE,
+        TRANS_TYPE,
+        ORDER_TYPE,
+        CHANNEL_ID,
+        AUDIT_STATUS,
+        CHANNEL_STATUS,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY,
+        BANK_CARD_NO,
+        SYSTEM_MONEY,
+        SYSTEM_CCY,
+        SYSTEM_RATE,
+        REAL_RATE,
+        APPLY_STATUS,
+        CM_STATUS,
+        BUSINESS_NO,
+        EXCHANGE_TYPE,
+        PURCHASE_STATUS,
+        REMIT_MONEY,
+        REMARKS
+        )
+        VALUES (
+        #{batchNo,jdbcType=VARCHAR},
+        #{memberNo,jdbcType=BIGINT},
+        #{transMoney,jdbcType=DECIMAL},
+        #{transCcy,jdbcType=VARCHAR},
+        #{transFee,jdbcType=DECIMAL},
+        #{swiftCode,jdbcType=VARCHAR},
+        #{transType,jdbcType=VARCHAR},
+        #{orderType,jdbcType=VARCHAR},
+        #{channelId,jdbcType=BIGINT},
+        #{auditStatus,jdbcType=VARCHAR},
+        #{channelStatus,jdbcType=VARCHAR},
+        NOW(),
+        #{createBy,jdbcType=VARCHAR},
+        NOW(),
+        #{updateBy,jdbcType=VARCHAR},
+        #{bankCardNo,jdbcType=VARCHAR},
+        #{systemMoney,jdbcType=DECIMAL},
+        #{systemCcy,jdbcType=VARCHAR},
+        #{systemRate,jdbcType=DECIMAL},
+        #{realRate,jdbcType=DECIMAL},
+        #{applyStatus,jdbcType=DECIMAL},
+        #{cmStatus,jdbcType=VARCHAR},
+        #{businessNo,jdbcType=VARCHAR},
+        #{exchangeType,jdbcType=INTEGER},
+        #{purchaseStatus,jdbcType=INTEGER},
+        #{remitMoney,jdbcType=DECIMAL},
+        #{remarks,jdbcType=VARCHAR}
+        )
+    </insert>
+
+
+    <!--跨境人民汇款订单明细新增-->
+    <insert id="createRemittanceAddition" parameterType="com.baofu.cbpayservice.dal.models.FiCbPayRemittanceAdditionDo">
+        /*FiCbPayRemittanceMapper.createRemittanceAddition*/
+        INSERT INTO FI_CBPAY_REMITTANCE_ADDITION (
+        MEMBER_NO,
+        BATCH_NO,
+        COST_BORNE,
+        DFS_FILE_ID,
+        OCEANIC,
+        ENTITY_NO,
+        BANK_NAME,
+        BANK_ACC_NAME,
+        BANK_ACC_NO,
+        CREATE_BY,
+        CREATE_AT,
+        UPDATE_BY,
+        UPDATE_AT
+        )VALUES (
+        #{memberNo,jdbcType=BIGINT},
+        #{batchNo,jdbcType=VARCHAR},
+        #{costBorne,jdbcType=VARCHAR},
+        #{dfsFileId,jdbcType=VARCHAR},
+        #{oceanic,jdbcType=VARCHAR},
+        #{entityNo,jdbcType=VARCHAR},
+        #{bankName,jdbcType=VARCHAR},
+        #{bankAccName,jdbcType=VARCHAR},
+        #{bankAccNo,jdbcType=VARCHAR},
+        #{createBy,jdbcType=VARCHAR},
+        NOW(),
+        #{updateBy,jdbcType=VARCHAR},
+        NOW()
+        )
+    </insert>
+
+
+    <!--按批次号查询汇款订单-->
+    <select id="queryRemittanceOrder" resultMap="RemittanceResultMap">
+        /*FiCbPayRemittanceMapper.queryRemittanceOrder*/
+        SELECT
+        <include refid="remittance_Column_List"/>
+        FROM
+        FI_CBPAY_REMITTANCE
+        WHERE
+        BATCH_NO = #{batchNo,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询所有初始化汇款订单-->
+    <select id="queryInitRemittanceOrder" resultMap="RemittanceResultMap">
+        /*FiCbPayRemittanceMapper.queryInitRemittanceOrder*/
+        SELECT
+        <include refid="remittance_Column_List"/>
+        FROM
+        FI_CBPAY_REMITTANCE
+        WHERE
+        CHANNEL_STATUS = 'INIT'
+        AND
+        APPLY_STATUS = 'TRUE'
+        AND
+        CHANNEL_ID = #{channelId,jdbcType=BIGINT}
+        AND
+        CREATE_AT &gt;= DATE_SUB(DATE_FORMAT(NOW(), #{createTime}), INTERVAL 3 DAY)
+        AND
+        CREATE_AT &lt;= DATE_FORMAT(NOW(), #{createTime})
+        AND
+        PURCHASE_STATUS = #{purchaseStatus,jdbcType=INTEGER}
+    </select>
+
+    <!--查询汇款附加信息-->
+    <select id="queryRemittanceAddition" resultMap="RemittanceAdditionResultMap">
+        /*FiCbPayRemittanceMapper.queryRemittanceAddition*/
+        SELECT
+        <include refid="remittanceAddition_Column_List"/>
+        FROM
+        FI_CBPAY_REMITTANCE_ADDITION
+        WHERE
+        BATCH_NO = #{batchNo,jdbcType=VARCHAR}
+        AND
+        MEMBER_NO = #{memberNo,jdbcType=BIGINT}
+    </select>
+
+    <!--跨境人民汇款订单更新-->
+    <update id="updateRemittanceOrder" parameterType="com.baofu.cbpayservice.dal.models.FiCbPayRemittanceDo">
+        /*FiCbPayRemittanceMapper.updateRemittanceOrder*/
+        UPDATE
+        FI_CBPAY_REMITTANCE
+        SET
+        <if test="auditStatus != null and auditStatus!=''">
+            AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+        </if>
+        <if test="channelStatus != null and channelStatus!=''">
+            CHANNEL_STATUS = #{channelStatus,jdbcType=VARCHAR},
+            CHANNEL_DATE = NOW(),
+        </if>
+        <if test="applyStatus != null and applyStatus!=''">
+            APPLY_STATUS = #{applyStatus,jdbcType=VARCHAR},
+        </if>
+        <if test="auditBy != null and auditBy!=''">
+            AUDIT_BY = #{auditBy,jdbcType=VARCHAR},
+        </if>
+        <if test="auditDate !=null">
+            AUDIT_DATE = NOW(),
+        </if>
+        <if test="updateBy != null and updateBy!=''">
+            UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+        </if>
+        <if test="cmStatus != null and cmStatus!=''">
+            CM_STATUS = #{cmStatus,jdbcType=VARCHAR},
+        </if>
+        <if test="purchaseStatus != null">
+            PURCHASE_STATUS = #{purchaseStatus,jdbcType=INTEGER},
+        </if>
+        <if test="remarks != null and remarks!=''">
+            REMARKS = #{remarks,jdbcType=VARCHAR},
+        </if>
+        <if test="transFee != null">
+            TRANS_FEE = #{transFee,jdbcType=DECIMAL},
+        </if>
+        <if test="bankFee != null">
+            BANK_FEE = #{bankFee,jdbcType=DECIMAL},
+        </if>
+        <if test="feeStatus != null">
+            FEE_STATUS = #{feeStatus,jdbcType=INTEGER},
+        </if>
+        <if test="receiptId != null and receiptId !=''">
+            RECEIPTID = #{receiptId,jdbcType=BIGINT},
+        </if>
+        <if test="systemMoney != null">
+            SYSTEM_MONEY = #{systemMoney,jdbcType=DECIMAL},
+        </if>
+        <if test="systemRate != null">
+            SYSTEM_RATE = #{systemRate,jdbcType=DECIMAL},
+        </if>
+        <if test="realRate != null">
+            REAL_RATE = #{realRate,jdbcType=DECIMAL},
+        </if>
+        <if test="remitSuccDate != null">
+            REMIT_SUCC_DATE = NOW(),
+        </if>
+        <if test="exchangeSuccDate != null">
+            EXCHANGE_SUCC_DATE = NOW(),
+        </if>
+        <if test="bankBatchNo != null and bankBatchNo!=''">
+            BANK_BATCH_NO = #{bankBatchNo,jdbcType=VARCHAR},
+        </if>
+        <if test="realMoney != null">
+            REAL_MONEY = #{realMoney,jdbcType=DECIMAL},
+        </if>
+        <if test="remitMoney != null">
+            REMIT_MONEY = #{remitMoney,jdbcType=DECIMAL},
+        </if>
+        UPDATE_AT = NOW()
+        WHERE
+        BATCH_NO = #{batchNo,jdbcType=VARCHAR}
+        <if test="beforeAuditStatus != null and beforeAuditStatus!=''">
+            AND AUDIT_STATUS = #{beforeAuditStatus,jdbcType=VARCHAR}
+        </if>
+    </update>
+
+    <!--跨境人民汇款附加信息更新-->
+    <update id="updateRemittanceAddition" parameterType="com.baofu.cbpayservice.dal.models.FiCbPayRemittanceAdditionDo">
+        /*FiCbPayRemittanceMapper.updateRemittanceAddition*/
+        UPDATE
+        FI_CBPAY_REMITTANCE_ADDITION
+        SET
+        DFS_FILE_ID = #{dfsFileId,jdbcType=BIGINT},
+        UPDATE_AT = NOW(),
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+        WHERE
+        BATCH_NO = #{batchNo,jdbcType=VARCHAR}
+        AND
+        MEMBER_NO = #{memberNo,jdbcType=BIGINT}
+    </update>
+
+    <!--根据batchNo查询汇款申请信息-->
+    <select id="selectByBatchNo" resultMap="RemittanceResultMap">
+        SELECT
+        <include refid="remittance_Column_List"/>
+        FROM
+        FI_CBPAY_REMITTANCE
+        WHERE
+        BATCH_NO = #{batchNo,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryRemittanceByBatchNos" resultType="java.math.BigDecimal">
+        /*FiCbPayRemittanceMapper.queryRemittanceByBatchNos*/
+        SELECT
+        SUM(TRANS_MONEY)
+        FROM
+        FI_CBPAY_ORDER
+        WHERE BATCH_FILE_ID IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND
+        AML_STATUS IN (0,1)
+    </select>
+
+    <!--查询汇款订单批次号-->
+    <select id="queryBatchNos" resultType="java.lang.String">
+        SELECT s.BATCH_NO FROM BAOFOO_FI.FI_CBPAY_REMITTANCE s
+        WHERE
+        <if test="beginDate != null and beginDate!='' and endDate!=null and endDate!=''">
+            <![CDATA[
+                s.CREATE_AT >= #{beginDate}
+                AND s.CREATE_AT < #{endDate}
+          ]]>
+        </if>
+    </select>
+
+    <!--按批次号和商户号查询汇款订单-->
+    <select id="queryRemitByBatchNoMemberId" resultMap="RemittanceResultMap">
+        /*FiCbPayRemittanceMapper.queryRemitByBatchNoMemberId*/
+        SELECT
+          <include refid="remittance_Column_List"/>
+        FROM
+          FI_CBPAY_REMITTANCE
+        WHERE
+          BATCH_NO = #{batchNo,jdbcType=VARCHAR}
+        AND
+          MEMBER_NO = #{memberId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据文件批次号查询渠道状态 -->
+    <select id="countChannelStatusByBatchNo" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM BAOFOO_FI.FI_CBPAY_REMITTANCE s WHERE s.BATCH_NO IN
+        (
+                SELECT f.BATCH_NO FROM BAOFOO_FI.FI_CBPAY_FILE_UPLOAD f WHERE f.FILE_BATCH_NO IN
+                   <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+                       #{item}
+                   </foreach>
+        ) AND s.CHANNEL_STATUS!='FALSE'
+    </select>
+
+    <!--根据文件批次号查询订单行业类型总数-->
+    <select id="checkCareerTypeByBatchNos" resultType="java.lang.Integer">
+        /*FiCbPayRemittanceMapper.checkCareerTypeByBatchNos*/
+        SELECT
+        COUNT(DISTINCT (CAREER_TYPE))
+        FROM
+
+        FI_CBPAY_ORDER
+        WHERE BATCH_FILE_ID IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND
+        AML_STATUS IN (0,1)
+    </select>
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baofu.cbpayservice.dal.mapper.FiCbPayRiskOrderMapper">
+
+    <!--将有风险的跨境订单插入数据库中  add by wdj-->
+    <insert id="insertRiskOrder" parameterType="com.baofu.cbpayservice.dal.models.CbPayRiskOrderDo">
+        /*FiCbPayRiskOrderMapper.insertRiskOrder*/
+        INSERT INTO FI_CBPAY_RISK_ORDER (
+        ORDER_ID,
+        MEMBER_ID,
+        MEMBER_TRANS_ID,
+        ORDER_AMT,
+        ORDER_CCY,
+        RISK_LEVEL,
+        FAKE_FLAG,
+        WAYBILL_FLAG,
+        RISK_RULE,
+        ARTIFI_STATUS,
+        MEMBER_TRANS_DATE,
+        REMARKS,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY,
+        BATCH_NO,
+        ORDER_TYPE,
+        ORDER_AT
+        )VALUES (
+        #{orderId,jdbcType=BIGINT},
+        #{memberId,jdbcType=BIGINT},
+        #{memberTransId,jdbcType=VARCHAR},
+        #{orderAmt,jdbcType=DECIMAL},
+        #{orderCcy,jdbcType=CHAR},
+        #{riskLevel,jdbcType=INTEGER},
+        #{fakeFlag,jdbcType=INTEGER},
+        #{wayBillFlag,jdbcType=INTEGER},
+        #{riskRule,jdbcType=VARCHAR},
+        #{artifiStatus,jdbcType=INTEGER},
+        #{memberTransDate,jdbcType=TIMESTAMP},
+        '',
+        NOW(),
+        'SYSTEM',
+        NOW(),
+        'SYSTEM',
+        #{batchNo},
+        #{orderType},
+        NOW()
+        )
+    </insert>
+    <!--人工审核更新风控订单信息 add by wdj-->
+    <update id="updateRiskOrderByOrderId" parameterType="com.baofu.cbpayservice.dal.models.CbPayOrderRiskControlDo">
+        /*FiCbPayRiskOrderMapper.updateRiskOrderByOrderId*/
+        UPDATE
+        FI_CBPAY_RISK_ORDER
+        SET
+        <if test="fakeFlag !=null">
+            FAKE_FLAG = #{fakeFlag,jdbcType=INTEGER},
+        </if>
+        <if test="wayBillFlag !=null">
+            WAYBILL_FLAG = #{wayBillFlag,jdbcType=INTEGER},
+        </if>
+        <if test="artifiStatus !=null ">
+            ARTIFI_STATUS = #{artifiStatus,jdbcType=INTEGER},
+        </if>
+        <if test="remarks !=null and remarks !=''">
+            REMARKS = #{remarks,jdbcType=VARCHAR},
+        </if>
+        UPDATE_AT=NOW(),
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+        WHERE ORDER_ID = #{orderId,jdbcType=BIGINT}
+        AND MEMBER_ID = #{memberId,jdbcType=BIGINT}
+    </update>
+
+</mapper>

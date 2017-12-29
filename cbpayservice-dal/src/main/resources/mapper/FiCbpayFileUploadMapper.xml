@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baofu.cbpayservice.dal.mapper.FiCbpayFileUploadMapper">
+
+  <resultMap id="BaseResultMap" type="com.baofu.cbpayservice.dal.models.FiCbPayFileUploadDo">
+
+    <id         column="ID"                 jdbcType="BIGINT"           property="id" />
+    <result     column="FILE_NAME"          jdbcType="VARCHAR"          property="fileName" />
+    <result     column="RECORD_COUNT"       jdbcType="INTEGER"          property="recordCount" />
+    <result     column="SUCCESS_COUNT"      jdbcType="INTEGER"          property="successCount" />
+    <result     column="FAIL_COUNT"         jdbcType="INTEGER"          property="failCount" />
+    <result     column="STATUS"             jdbcType="VARCHAR"          property="status" />
+    <result     column="DFS_FILE_ID"        jdbcType="BIGINT"           property="dfsFileId" />
+    <result     column="FILE_TYPE"          jdbcType="VARCHAR"          property="fileType" />
+    <result     column="CREATE_BY"          jdbcType="VARCHAR"          property="createBy" />
+    <result     column="CREATE_AT"          jdbcType="TIMESTAMP"        property="createAt" />
+    <result     column="UPDATE_AT"          jdbcType="TIMESTAMP"        property="updateAt" />
+    <result     column="UPDATE_BY"          jdbcType="VARCHAR"          property="updateBy" />
+    <result     column="MEMBER_ID"          jdbcType="BIGINT"           property="memberId" />
+    <result     column="ORDER_TYPE "        jdbcType="VARCHAR"          property="orderType" />
+    <result     column="FILE_BATCH_NO"      jdbcType="BIGINT"           property="fileBatchNo" />
+    <result     column="BATCH_NO"           jdbcType="VARCHAR"          property="batchNo" />
+    <result     column="TOTAL_AMOUT"        jdbcType="DECIMAL"          property="totalAmount" />
+    <result     column="AML_AMOUNT"         jdbcType="DECIMAL"          property="amlAmount" />
+    <result     column="AML_CCY"            jdbcType="VARCHAR"          property="amlCcy" />
+    <result     column="AML_RATE"           jdbcType="DECIMAL"          property="amlRate" />
+    <result     column="CAREER_TYPE"        jdbcType="VARCHAR"          property="careerType" />
+    <result     column="ERROR_DFS_FILE_ID"  jdbcType="BIGINT"           property="errorFileId" />
+  </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,
+        FILE_NAME,
+        RECORD_COUNT,
+        SUCCESS_COUNT,
+        FAIL_COUNT,
+        STATUS,
+        DFS_FILE_ID,
+        FILE_TYPE,
+        CREATE_BY,
+        CREATE_AT,
+        UPDATE_AT,
+        UPDATE_BY,
+        MEMBER_ID,
+        ORDER_TYPE,
+        FILE_BATCH_NO,
+        BATCH_NO,
+        TOTAL_AMOUT,
+        AML_AMOUNT,
+        AML_CCY,
+        AML_RATE,
+        CAREER_TYPE,
+        ERROR_DFS_FILE_ID
+    </sql>
+
+    <!-- 插入代报上传文件状态 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.baofu.cbpayservice.dal.models.FiCbPayFileUploadDo">
+        /*FiCbpayFileUploadMapper.insert*/
+        INSERT INTO FI_CBPAY_FILE_UPLOAD (
+        FILE_NAME,
+        RECORD_COUNT,
+        SUCCESS_COUNT,
+        FAIL_COUNT,
+        STATUS,
+        DFS_FILE_ID,
+        FILE_TYPE,
+        CREATE_BY,
+        CREATE_AT,
+        UPDATE_BY,
+        UPDATE_AT,
+        MEMBER_ID,
+        ORDER_TYPE,
+        CAREER_TYPE,
+        FILE_BATCH_NO,
+        TOTAL_AMOUT,
+        BATCH_NO
+        ) VALUES (
+        #{fileName},
+        #{recordCount},
+        #{successCount},
+        #{failCount},
+        #{status},
+        #{dfsFileId},
+        #{fileType},
+        #{createBy},
+        NOW(),
+        #{updateBy},
+        NOW(),
+        #{memberId},
+        #{orderType},
+        #{careerType},
+        #{fileBatchNo},
+        #{totalAmount},
+        #{batchNo}
+        )
+    </insert>
+
+    <!-- 更新代报上传文件状态 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.baofu.cbpayservice.dal.models.FiCbPayFileUploadDo">
+        /*FiCbpayFileUploadMapper.updateByPrimaryKeySelective*/
+        update FI_CBPAY_FILE_UPLOAD
+        <set>
+            <if test="recordCount != null">
+                RECORD_COUNT = #{recordCount,jdbcType=VARCHAR},
+            </if>
+            <if test="careerType != null">
+                CAREER_TYPE = #{careerType,jdbcType=VARCHAR},
+            </if>
+            <if test="orderType != null">
+                ORDER_TYPE = #{orderType,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="successCount != null">
+                SUCCESS_COUNT = #{successCount,jdbcType=INTEGER},
+            </if>
+            <if test="failCount != null">
+                FAIL_COUNT = #{failCount,jdbcType=INTEGER},
+            </if>
+            <if test="errorFileId != null">
+                ERROR_DFS_FILE_ID = #{errorFileId,jdbcType=INTEGER},
+            </if>
+            <if test="totalAmount != null">
+                TOTAL_AMOUT = #{totalAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="amlAmount != null">
+                AML_AMOUNT = #{amlAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="amlRate != null">
+                AML_RATE = #{amlRate,jdbcType=DECIMAL},
+            </if>
+            <if test="dfsFileId != null">
+                DFS_FILE_ID = #{dfsFileId,jdbcType=BIGINT},
+            </if>
+            UPDATE_AT = NOW()
+        </set>
+        where FILE_BATCH_NO = #{fileBatchNo,jdbcType=BIGINT}
+        <if test="oldStatus != null">
+            AND STATUS = #{oldStatus,jdbcType=VARCHAR}
+        </if>
+    </update>
+
+    <!-- 根据批次号查询 -->
+    <select id="queryByBatchId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        /*FiCbpayFileUploadMapper.queryByBatchId*/
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        FI_CBPAY_FILE_UPLOAD
+        WHERE
+        FILE_BATCH_NO = #{batchId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据汇款批次号查询 -->
+    <select id="queryByApplyId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        /*FiCbpayFileUploadMapper.queryByApplyId*/
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        FI_CBPAY_FILE_UPLOAD
+        WHERE
+        BATCH_NO = #{orderId,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据批次号更新 -->
+    <update id="batchUpdateFileStatus">
+        /*FiCbpayFileUploadMapper.batchUpdateFileStatus*/
+        UPDATE
+        FI_CBPAY_FILE_UPLOAD
+        SET
+        STATUS = #{status,jdbcType=VARCHAR},
+        <if test="batchNo != null">
+            BATCH_NO = #{batchNo,jdbcType=VARCHAR},
+        </if>
+        <if test="amlCcy != null">
+            AML_CCY = #{amlCcy,jdbcType=VARCHAR},
+        </if>
+        <if test="amlRate != null">
+            AML_RATE = #{amlRate,jdbcType=DECIMAL},
+        </if>
+        UPDATE_AT = NOW(),
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+        WHERE
+        MEMBER_ID = #{memberId,jdbcType=BIGINT}
+        AND
+        FILE_BATCH_NO IN
+        <foreach collection="batchFileIdList" item="fileId" index="index" open="(" close=")" separator=",">
+            #{fileId}
+        </foreach>
+    </update>
+
+    <!-- 根据汇款批次号查询 -->
+    <select id="queryByBatchNo" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        /*FiCbpayFileUploadMapper.queryByBatchNo*/
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        FI_CBPAY_FILE_UPLOAD
+        WHERE
+        BATCH_NO = #{batchNo,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 查询文件批次包含币种数 -->
+    <select id="queryAmlCcy" resultType="java.lang.String">
+        /*FiCbpayFileUploadMapper.queryAmlCcy*/
+        SELECT AML_CCY
+        FROM FI_CBPAY_FILE_UPLOAD
+        WHERE
+        AML_CCY IS NOT NULL
+        AND FILE_BATCH_NO IN
+        <foreach collection="batchFileIdList" item="fileId" index="index" open="(" close=")" separator=",">
+            #{fileId}
+        </foreach>
+        GROUP BY AML_CCY
+    </select>
+
+    <!--根据 结汇申请ID查询文件批次-->
+    <select id="queryByBatchNoByAppNo" resultMap="BaseResultMap">
+        /*FiCbpayFileUploadMapper.queryByBatchNoByAppNo*/
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        FI_CBPAY_FILE_UPLOAD
+        WHERE
+        BATCH_NO = #{appNo,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据文件批次号统计总金额-->
+    <select id="sumAllOrderAmt" resultType="java.math.BigDecimal">
+        SELECT SUM(f.TOTAL_AMOUT) FROM   BAOFOO_FI.FI_CBPAY_FILE_UPLOAD f WHERE f.FILE_BATCH_NO IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--根据文件批次号和状态查询-->
+    <select id="countFileByFileBatchNo" resultType="java.lang.Integer">
+      SELECT COUNT(1) FROM BAOFOO_FI.FI_CBPAY_FILE_UPLOAD s WHERE s.STATUS NOT IN ('TRUE','AML-SUCCESS','AML-PART-SUCCESS')
+       AND s.FILE_BATCH_NO IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!-- 根据订单批次号更新数据 -->
+    <update id="updateFileBybatch" parameterType="com.baofu.cbpayservice.dal.models.FiCbPayFileUploadDo">
+
+        /*FiCbpayFileUploadMapper.updateByPrimaryKeySelective*/
+        update FI_CBPAY_FILE_UPLOAD
+        <set>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+            UPDATE_AT = NOW()
+        </set>
+        where BATCH_NO = #{batchNo,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

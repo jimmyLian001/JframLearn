@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baofu.cbpayservice.dal.mapper.FiCbPaySettleBankMapper">
+
+    <resultMap id="BaseResultMap" type="com.baofu.cbpayservice.dal.models.FiCbPaySettleBankDo">
+
+        <id             column="ID"                         jdbcType="BIGINT"               property="id"/>
+        <result         column="RECORD_ID"                  jdbcType="BIGINT"               property="recordId"/>
+        <result         column="MEMBER_ID"                  jdbcType="BIGINT"               property="memberId"/>
+        <result         column="SETTLE_CCY"                 jdbcType="CHAR"                 property="settleCcy"/>
+        <result         column="BANK_ACC_NO"                jdbcType="VARCHAR"              property="bankAccNo"/>
+        <result         column="BANK_NAME"                  jdbcType="VARCHAR"              property="bankName"/>
+        <result         column="BANK_ACC_NAME"              jdbcType="VARCHAR"              property="bankAccName"/>
+        <result         column="PAYEE_ADDRESS"              jdbcType="VARCHAR"              property="payeeAddress"/>
+        <result         column="COST_BORNE"                 jdbcType="VARCHAR"              property="costBorne"/>
+        <result         column="BANK_SWIFT_CODE"            jdbcType="VARCHAR"              property="bankSwiftCode"/>
+        <result         column="BANK_LARGE_CODE"            jdbcType="VARCHAR"              property="bankLargeCode"/>
+        <result         column="SETTLE_SYSTEM"              jdbcType="VARCHAR"              property="settleSystem"/>
+        <result         column="MIDDLE_SWIFT_CODE"          jdbcType="VARCHAR"              property="middleSwiftCode"/>
+        <result         column="MIDDLE_BANK_NAME"           jdbcType="VARCHAR"              property="middleBankName"/>
+        <result         column="MIDDLE_BANK_COUNTRY"        jdbcType="VARCHAR"              property="middleBankCountry"/>
+        <result         column="MIDDLE_BANK_CODE"           jdbcType="VARCHAR"              property="middleBankCode"/>
+        <result         column="OCEANIC_FLAG"               jdbcType="VARCHAR"              property="oceanicFlag"/>
+        <result         column="BANK_ACC_TYPE"              jdbcType="TINYINT"              property="bankAccType"/>
+        <result         column="BSB_NUMBER"                 jdbcType="VARCHAR"              property="bsbNumber"/>
+        <result         column="ENTITY_NO"                  jdbcType="VARCHAR"              property="entityNo"/>
+        <result         column="REMARKS"                    jdbcType="VARCHAR"              property="remarks"/>
+        <result         column="CREATE_AT"                  jdbcType="TIMESTAMP"            property="createAt"/>
+        <result         column="CREATE_BY"                  jdbcType="VARCHAR"              property="createBy"/>
+        <result         column="UPDATE_AT"                  jdbcType="TIMESTAMP"            property="updateAt"/>
+        <result         column="UPDATE_BY"                  jdbcType="VARCHAR"              property="updateBy"/>
+        <result         column="EXCHANGE_TYPE"              jdbcType="INTEGER"              property="exchangeType"/>
+        <result         column="SETTLE_STATUS"              jdbcType="TINYINT"              property="settleStatus"/>
+        <result         column="BANK_ADDRESS"               jdbcType="VARCHAR"              property="bankAddress"/>
+        <result         column="COUNTRY_CODE"               jdbcType="VARCHAR"              property="countryCode"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,
+        RECORD_ID,
+        MEMBER_ID,
+        SETTLE_CCY,
+        BANK_ACC_NO,
+        BANK_NAME,
+        BANK_ACC_NAME,
+        PAYEE_ADDRESS,
+        COST_BORNE,
+        BANK_SWIFT_CODE,
+        BANK_LARGE_CODE,
+        SETTLE_SYSTEM,
+        MIDDLE_SWIFT_CODE,
+        MIDDLE_BANK_NAME,
+        MIDDLE_BANK_COUNTRY,
+        MIDDLE_BANK_CODE,
+        OCEANIC_FLAG,
+        BANK_ACC_TYPE,
+        BSB_NUMBER,
+        ENTITY_NO,
+        REMARKS,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY,
+        EXCHANGE_TYPE,
+        BANK_ADDRESS,
+        SETTLE_STATUS,
+        COUNTRY_CODE
+    </sql>
+
+    <!-- 根据记录编号查询 -->
+    <select id="selectByRecordId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        /*FiCbPaySettleBankMapper.selectByRecordId*/
+        select
+        <include refid="Base_Column_List"/>
+        from FI_CBPAY_SETTLE_BANK
+        where RECORD_ID = #{recordId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 插入用户多币账户 -->
+    <insert id="insert" parameterType="com.baofu.cbpayservice.dal.models.FiCbPaySettleBankDo">
+        /*FiCbPaySettleBankMapper.insert*/
+        INSERT INTO FI_CBPAY_SETTLE_BANK (
+        RECORD_ID,
+        MEMBER_ID,
+        SETTLE_CCY,
+        BANK_ACC_NO,
+        BANK_NAME,
+        BANK_ACC_NAME,
+        PAYEE_ADDRESS,
+        COST_BORNE,
+        BANK_SWIFT_CODE,
+        BANK_LARGE_CODE,
+        SETTLE_SYSTEM,
+        MIDDLE_SWIFT_CODE,
+        MIDDLE_BANK_NAME,
+        MIDDLE_BANK_COUNTRY,
+        MIDDLE_BANK_CODE,
+        OCEANIC_FLAG,
+        BANK_ACC_TYPE,
+        BSB_NUMBER,
+        ENTITY_NO,
+        REMARKS,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY,
+        EXCHANGE_TYPE,
+        BANK_ADDRESS,
+        SETTLE_STATUS,
+        COUNTRY_CODE
+        ) values (
+        #{recordId,jdbcType=BIGINT},
+        #{memberId,jdbcType=BIGINT},
+        #{settleCcy,jdbcType=CHAR},
+        #{bankAccNo,jdbcType=VARCHAR},
+        #{bankName,jdbcType=VARCHAR},
+        #{bankAccName,jdbcType=VARCHAR},
+        #{payeeAddress,jdbcType=VARCHAR},
+        #{costBorne,jdbcType=VARCHAR},
+        #{bankSwiftCode,jdbcType=VARCHAR},
+        #{bankLargeCode,jdbcType=VARCHAR},
+        #{settleSystem,jdbcType=VARCHAR},
+        #{middleSwiftCode,jdbcType=VARCHAR},
+        #{middleBankName,jdbcType=VARCHAR},
+        #{middleBankCountry,jdbcType=VARCHAR},
+        #{middleBankCode,jdbcType=VARCHAR},
+        #{oceanicFlag,jdbcType=VARCHAR},
+        #{bankAccType,jdbcType=TINYINT},
+        #{bsbNumber,jdbcType=VARCHAR},
+        #{entityNo,jdbcType=VARCHAR},
+        #{remarks,jdbcType=VARCHAR},
+        NOW(),
+        #{createBy,jdbcType=VARCHAR},
+        NOW(),
+        #{updateBy,jdbcType=VARCHAR},
+        #{exchangeType,jdbcType=INTEGER},
+        #{bankAddress,jdbcType=VARCHAR},
+        #{settleStatus,jdbcType=TINYINT},
+        #{countryCode,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!-- 根据记录编号修改 -->
+    <update id="updateByRecordId" parameterType="com.baofu.cbpayservice.dal.models.FiCbPaySettleBankDo">
+        /*FiCbPaySettleBankMapper.insert*/
+        update FI_CBPAY_SETTLE_BANK
+        <set>
+            <if test="memberId != null ">
+                MEMBER_ID = #{memberId,jdbcType=BIGINT},
+            </if>
+            <if test="settleCcy != null and settleCcy != ''">
+                SETTLE_CCY = #{settleCcy,jdbcType=CHAR},
+            </if>
+            <if test="bankAccNo != null and bankAccNo != ''">
+                BANK_ACC_NO = #{bankAccNo,jdbcType=VARCHAR},
+            </if>
+            <if test="bankName != null and bankName != ''">
+                BANK_NAME = #{bankName,jdbcType=VARCHAR},
+            </if>
+            <if test="bankAccName != null and bankAccName != ''">
+                BANK_ACC_NAME = #{bankAccName,jdbcType=VARCHAR},
+            </if>
+            <if test="payeeAddress != null and payeeAddress != ''">
+                PAYEE_ADDRESS = #{payeeAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="costBorne != null and costBorne != ''">
+                COST_BORNE = #{costBorne,jdbcType=VARCHAR},
+            </if>
+            <if test="bankSwiftCode != null and bankSwiftCode != ''">
+                BANK_SWIFT_CODE = #{bankSwiftCode,jdbcType=VARCHAR},
+            </if>
+            <if test="bankLargeCode != null and bankLargeCode != '' ">
+                BANK_LARGE_CODE = #{bankLargeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="settleSystem != null and settleSystem != '' ">
+                SETTLE_SYSTEM = #{settleSystem,jdbcType=VARCHAR},
+            </if>
+            <if test="middleSwiftCode != null and middleSwiftCode != '' ">
+                MIDDLE_SWIFT_CODE = #{middleSwiftCode,jdbcType=VARCHAR},
+            </if>
+            <if test="middleBankName != null and middleBankName != '' ">
+                MIDDLE_BANK_NAME = #{middleBankName,jdbcType=VARCHAR},
+            </if>
+            <if test="middleBankCountry != null and middleBankCountry != '' ">
+                MIDDLE_BANK_COUNTRY = #{middleBankCountry,jdbcType=VARCHAR},
+            </if>
+            <if test="middleBankCode != null and middleBankCode != '' ">
+                MIDDLE_BANK_CODE = #{middleBankCode,jdbcType=VARCHAR},
+            </if>
+            <if test="oceanicFlag != null and oceanicFlag != '' ">
+                OCEANIC_FLAG = #{oceanicFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                REMARKS = #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null and updateBy != '' ">
+                UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="settleStatus != null and memberId != 0">
+                SETTLE_STATUS = #{settleStatus,jdbcType=TINYINT},
+            </if>
+            <if test="exchangeType != null ">
+                EXCHANGE_TYPE = #{exchangeType,jdbcType=TINYINT},
+            </if>
+            <if test="bankAccType != null ">
+                BANK_ACC_TYPE = #{bankAccType,jdbcType=TINYINT},
+            </if>
+            <if test="bsbNumber != null and bsbNumber != ''">
+                BSB_NUMBER = #{bsbNumber,jdbcType=VARCHAR},
+            </if>
+            BANK_ADDRESS = #{bankAddress,jdbcType=VARCHAR},
+            COUNTRY_CODE = #{countryCode,jdbcType=VARCHAR},
+            UPDATE_AT = NOW()
+        </set>
+        where RECORD_ID = #{recordId,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据商户币种备案主体编号查询指定账户 -->
+    <select id="selectBankAccByEntityNo" resultMap="BaseResultMap">
+        /*FiCbPaySettleBankMapper.selectByRecordId*/
+        select
+        <include refid="Base_Column_List"/>
+        from FI_CBPAY_SETTLE_BANK
+        where MEMBER_ID = #{memberId,jdbcType=BIGINT}
+        and SETTLE_CCY = #{settleCcy,jdbcType=CHAR}
+        and ENTITY_NO = #{entityNo,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据商戶和币种查询 -->
+    <select id="selectBankAccsByMIdCcy" resultMap="BaseResultMap">
+        /*FiCbPaySettleBankMapper.selectByRecordId*/
+        select
+        <include refid="Base_Column_List"/>
+        from FI_CBPAY_SETTLE_BANK
+        where MEMBER_ID = #{memberId,jdbcType=BIGINT}
+        and SETTLE_CCY = #{settleCcy,jdbcType=CHAR}
+        order by EXCHANGE_TYPE desc
+    </select>
+
+    <!-- 根据商户号、币种、银行账户编号 -->
+    <select id="selectMerchantEntityNo" resultType="java.lang.String">
+          SELECT s.ENTITY_NO FROM BAOFOO_FI.FI_CBPAY_SETTLE_BANK s
+          WHERE s.MEMBER_ID=#{memberId}
+          AND s.SETTLE_CCY=#{remitCcy} AND s.BANK_ACC_NO=#{bankAccNo} AND s.SETTLE_STATUS=2
+    </select>
+
+    <!-- 查询当前币种最大的子账户编号 -->
+    <select id="selectMemberMaxEntityNo" resultType="java.lang.String">
+        SELECT
+          MAX(s.ENTITY_NO)
+        FROM
+          BAOFOO_FI.FI_CBPAY_SETTLE_BANK s
+        WHERE
+          s.MEMBER_ID=#{memberId}
+        AND
+          s.SETTLE_CCY=#{settleCcy}
+    </select>
+
+</mapper>
