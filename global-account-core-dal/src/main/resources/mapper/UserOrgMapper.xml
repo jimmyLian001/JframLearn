@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baofu.international.global.account.core.dal.mapper.UserOrgMapper">
+    <resultMap id="BaseResultMap" type="com.baofu.international.global.account.core.dal.model.UserOrgDo">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <!-- 别删 给我留着 开始-->
+        <result column="USER_NO" jdbcType="BIGINT" property="userNo"/>
+        <!-- 别删 给我留着 结束-->
+        <result column="USER_INFO_NO" jdbcType="BIGINT" property="userInfoNo"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="EN_NAME" jdbcType="VARCHAR" property="enName"/>
+        <result column="ID_TYPE" jdbcType="TINYINT" property="idType"/>
+        <result column="ID_DFS_ID" jdbcType="BIGINT" property="idDfsId"/>
+        <result column="ID_NO" jdbcType="VARCHAR" property="idNo"/>
+        <result column="MANAGEMENT_CATEGORY" jdbcType="VARCHAR" property="managementCategory"/>
+        <result column="LICENSE_BEGIN_DATE" jdbcType="DATE" property="licenseBeginDate"/>
+        <result column="LICENSE_END_DATE" jdbcType="DATE" property="licenseEndDate"/>
+        <result column="TAX_REGISTRATION_CERT_DFS_ID" jdbcType="BIGINT" property="taxRegistrationCertDfsId"/>
+        <result column="ORG_CODE_CERT_DFS_ID" jdbcType="BIGINT" property="orgCodeCertDfsId"/>
+        <result column="LEGAL_NAME" jdbcType="VARCHAR" property="legalName"/>
+        <result column="PROVINCE" jdbcType="VARCHAR" property="province"/>
+        <result column="CITY" jdbcType="VARCHAR" property="city"/>
+        <result column="AREA" jdbcType="VARCHAR" property="area"/>
+        <result column="LEGAL_ID_TYPE" jdbcType="TINYINT" property="legalIdType"/>
+        <result column="LEGAL_ID_NO" jdbcType="VARCHAR" property="legalIdNo"/>
+        <result column="LEGAL_ID_FRONT_DFS_ID" jdbcType="BIGINT" property="legalIdFrontDfsId"/>
+        <result column="LEGAL_ID_REVERSE_DFS_ID" jdbcType="BIGINT" property="legalIdReverseDfsId"/>
+        <result column="LEGAL_CERT_START_DATE" jdbcType="DATE" property="legalCertStartDate"/>
+        <result column="LEGAL_CERT_EXPIRY_DATE" jdbcType="DATE" property="legalCertExpiryDate"/>
+        <result column="ADDRESS" jdbcType="VARCHAR" property="address"/>
+        <result column="POST_CODE" jdbcType="VARCHAR" property="postCode"/>
+        <result column="REALNAME_STATUS" jdbcType="TINYINT" property="realnameStatus"/>
+        <result column="PHONE_NUMBER" jdbcType="VARCHAR" property="phoneNumber"/>
+        <result column="EMAIL" jdbcType="VARCHAR" property="email"/>
+        <result column="REMARKS" jdbcType="VARCHAR" property="remarks"/>
+        <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt"/>
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy"/>
+        <result column="UPDATE_AT" jdbcType="TIMESTAMP" property="updateAt"/>
+        <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="LONG_TERM" jdbcType="VARCHAR" property="longTerm"/>
+        <result column="REMARKS" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID,
+    USER_INFO_NO,
+    NAME,
+    EN_NAME,
+    ID_TYPE,
+    ID_DFS_ID,
+    ID_NO,
+    MANAGEMENT_CATEGORY,
+    LICENSE_BEGIN_DATE,
+    LICENSE_END_DATE,
+    TAX_REGISTRATION_CERT_DFS_ID,
+    ORG_CODE_CERT_DFS_ID,
+    LEGAL_NAME,
+    PROVINCE,
+    CITY,
+    AREA,
+    LEGAL_ID_TYPE,
+    LEGAL_ID_NO,
+    LEGAL_ID_FRONT_DFS_ID,
+    LEGAL_ID_REVERSE_DFS_ID,
+    LEGAL_CERT_START_DATE,
+    LEGAL_CERT_EXPIRY_DATE,
+    ADDRESS,
+    POST_CODE,
+    REALNAME_STATUS,
+    PHONE_NUMBER,
+    EMAIL,
+    REMARKS,
+    CREATE_AT,
+    CREATE_BY,
+    UPDATE_AT,
+    UPDATE_BY,
+    LONG_TERM,
+    REMARKS
+  </sql>
+    <sql id="Base_Column_List2">
+        o.ID,
+        u.USER_NO,
+        o.USER_INFO_NO,
+        o.NAME,
+        o.EN_NAME,
+        o.ID_TYPE,
+        o.ID_DFS_ID,
+        o.ID_NO,
+        o.MANAGEMENT_CATEGORY,
+        o.LICENSE_BEGIN_DATE,
+        o.LICENSE_END_DATE,
+        o.TAX_REGISTRATION_CERT_DFS_ID,
+        o.ORG_CODE_CERT_DFS_ID,
+        o.LEGAL_NAME,
+        o.PROVINCE,
+        o.CITY,
+        o.AREA,
+        o.LEGAL_ID_TYPE,
+        o.LEGAL_ID_NO,
+        o.LEGAL_ID_FRONT_DFS_ID,
+        o.LEGAL_ID_REVERSE_DFS_ID,
+        o.LEGAL_CERT_START_DATE,
+        o.LEGAL_CERT_EXPIRY_DATE,
+        o.ADDRESS,
+        o.POST_CODE,
+        o.REALNAME_STATUS,
+        o.PHONE_NUMBER,
+        o.EMAIL,
+        o.REMARKS,
+        o.CREATE_AT,
+        o.CREATE_BY,
+        o.UPDATE_AT,
+        o.UPDATE_BY,
+        o.LONG_TERM,
+        o.REMARKS
+    </sql>
+
+    <!-- 根据userInfoNo查询-->
+    <select id="selectByUserInfoNo" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        /* TUserOrgMapper.selectByApplyNo*/
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_USER_ORG
+        WHERE USER_INFO_NO = #{userInfoNo,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据查询条件查询机构信息 -->
+    <select id="selectAllByCondition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List2"/>
+        FROM
+        T_USER_INFO u
+        LEFT JOIN
+        T_USER_ORG o
+        ON
+        o.USER_INFO_NO = u.USER_INFO_NO
+        <where>
+            <if test="id != null">
+                AND o.ID = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="userNo != null">
+                AND u.USER_NO = #{userNo,jdbcType=BIGINT}
+            </if>
+            <if test="userInfoNo != null">
+                AND o.USER_INFO_NO = #{userInfoNo,jdbcType=BIGINT}
+            </if>
+            <if test="name != null and name !=''">
+                AND o.NAME = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="enName != null">
+                AND o.EN_NAME = #{enName,jdbcType=VARCHAR}
+            </if>
+            <if test="idDfsId != null">
+                AND o.ID_DFS_ID = #{idDfsId,jdbcType=BIGINT}
+            </if>
+            <if test="idNo != null">
+                AND o.ID_NO = #{idNo,jdbcType=VARCHAR}
+            </if>
+            <if test="address != null">
+                AND o.ADDRESS = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="postCode != null">
+                AND o.POST_CODE = #{postCode,jdbcType=VARCHAR}
+            </if>
+            <if test='realnameStatus != null'>
+                AND o.REALNAME_STATUS = #{realnameStatus,jdbcType=TINYINT}
+            </if>
+            <if test="phoneNumber != null and phoneNumber !=''">
+                AND o.PHONE_NUMBER = #{phoneNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="email != null and email != ''">
+                AND o.EMAIL = #{email,jdbcType=VARCHAR}
+            </if>
+            <if test="beginTime != null and beginTime != ''">
+                AND o.CREATE_AT &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND o.CREATE_AT &lt;=#{endTime}
+            </if>
+        </where>
+        ORDER BY o.CREATE_AT DESC
+        <if test="pageSize != 0">
+            LIMIT #{pageNo},#{pageSize}
+        </if>
+    </select>
+
+    <!-- 根据查询条件查询机构信息记录数 -->
+    <select id="countAllByCondition" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        T_USER_INFO u
+        LEFT JOIN
+        T_USER_ORG o
+        ON
+        o.USER_INFO_NO = u.USER_INFO_NO
+        <where>
+            <if test="id != null">
+                AND o.ID = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="userNo != null">
+                AND u.USER_NO = #{userNo,jdbcType=BIGINT}
+            </if>
+            <if test="userInfoNo != null">
+                AND o.USER_INFO_NO = #{userInfoNo,jdbcType=BIGINT}
+            </if>
+            <if test="name != null and name !=''">
+                AND o.NAME = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="enName != null">
+                AND o.EN_NAME = #{enName,jdbcType=VARCHAR}
+            </if>
+            <if test="idDfsId != null">
+                AND o.ID_DFS_ID = #{idDfsId,jdbcType=BIGINT}
+            </if>
+            <if test="idNo != null">
+                AND o.ID_NO = #{idNo,jdbcType=VARCHAR}
+            </if>
+            <if test="address != null">
+                AND o.ADDRESS = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="postCode != null">
+                AND o.POST_CODE = #{postCode,jdbcType=VARCHAR}
+            </if>
+            <if test='realnameStatus != null'>
+                AND o.REALNAME_STATUS = #{realnameStatus,jdbcType=TINYINT}
+            </if>
+            <if test="phoneNumber != null and phoneNumber !=''">
+                AND o.PHONE_NUMBER = #{phoneNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="email != null and email != ''">
+                AND o.EMAIL = #{email,jdbcType=VARCHAR}
+            </if>
+            <if test="beginTime != null and beginTime != ''">
+                AND o.CREATE_AT &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND o.CREATE_AT &lt;=#{endTime}
+            </if>
+        </where>
+    </select>
+
+    <!-- 数据插入-->
+    <insert id="insert" parameterType="com.baofu.international.global.account.core.dal.model.UserOrgDo">
+    /* TUserOrgMapper.insert*/
+    insert into T_USER_ORG (
+            USER_INFO_NO,
+            NAME,
+            EN_NAME,
+            ID_TYPE,
+            ID_DFS_ID,
+            ID_NO,
+            MANAGEMENT_CATEGORY,
+            LICENSE_BEGIN_DATE,
+            LICENSE_END_DATE,
+            TAX_REGISTRATION_CERT_DFS_ID,
+            ORG_CODE_CERT_DFS_ID,
+            LEGAL_NAME,
+            PROVINCE,
+            CITY,
+            AREA,
+            LEGAL_ID_TYPE,
+            LEGAL_ID_NO,
+            LEGAL_ID_FRONT_DFS_ID,
+            LEGAL_ID_REVERSE_DFS_ID,
+            LEGAL_CERT_START_DATE,
+            LEGAL_CERT_EXPIRY_DATE,
+            ADDRESS,
+            POST_CODE,
+            REALNAME_STATUS,
+            PHONE_NUMBER,
+            EMAIL,
+            REMARKS,
+            CREATE_AT,
+            CREATE_BY,
+            UPDATE_AT,
+            UPDATE_BY
+      )
+    values (
+            #{userInfoNo,jdbcType=BIGINT},
+            #{name,jdbcType=VARCHAR},
+            #{enName,jdbcType=VARCHAR},
+            #{idType,jdbcType=TINYINT},
+            #{idDfsId,jdbcType=BIGINT},
+            #{idNo,jdbcType=VARCHAR},
+            #{managementCategory,jdbcType=VARCHAR},
+            #{licenseBeginDate,jdbcType=DATE},
+            #{licenseEndDate,jdbcType=DATE},
+            #{taxRegistrationCertDfsId,jdbcType=BIGINT},
+            #{orgCodeCertDfsId,jdbcType=BIGINT},
+            #{legalName,jdbcType=VARCHAR},
+            #{province,jdbcType=VARCHAR},
+            #{city,jdbcType=VARCHAR},
+            #{area,jdbcType=VARCHAR},
+            #{legalIdType,jdbcType=TINYINT},
+            #{legalIdNo,jdbcType=VARCHAR},
+            #{legalIdFrontDfsId,jdbcType=BIGINT},
+            #{legalIdReverseDfsId,jdbcType=BIGINT},
+            #{legalCertStartDate,jdbcType=DATE},
+            #{legalCertExpiryDate,jdbcType=DATE},
+            #{address,jdbcType=VARCHAR},
+            #{postCode,jdbcType=VARCHAR},
+            #{realnameStatus,jdbcType=TINYINT},
+            #{phoneNumber,jdbcType=VARCHAR},
+            #{email,jdbcType=VARCHAR},
+            #{remarks,jdbcType=VARCHAR},
+            NOW(),
+            #{createBy,jdbcType=VARCHAR},
+            NOW(),
+            #{updateBy,jdbcType=VARCHAR}
+      )
+  </insert>
+
+    <!-- 更新状态 -->
+    <update id="updateTelByUserNo" parameterType="com.baofu.international.global.account.core.dal.model.UserOrgDo">
+        update T_USER_ORG
+        <set>
+            <if test="phoneNumber != null">
+                PHONE_NUMBER = #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            UPDATE_AT = NOW()
+        </set>
+        where USER_INFO_NO = #{userInfoNo,jdbcType=BIGINT}
+    </update>
+
+    <!-- 更新用户认证信息 -->
+    <update id="updateAuthStatus" parameterType="com.baofu.international.global.account.core.dal.model.user.EditUserReqDo">
+        UPDATE
+        T_USER_ORG
+        SET
+        <if test="authStatus != null">
+            REALNAME_STATUS = #{authStatus,jdbcType=TINYINT},
+        </if>
+        <if test="failReason != null">
+            REMARKS = #{failReason,jdbcType=VARCHAR},
+        </if>
+        UPDATE_AT = NOW(),
+        UPDATE_BY = #{operator,jdbcType=VARCHAR}
+        WHERE
+        USER_INFO_NO = #{userInfoNo,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateUserOrg" parameterType="com.baofu.international.global.account.core.dal.model.UserOrgDo">
+        /* TUserOrgMapper.updateUserOrg*/
+        UPDATE
+        T_USER_ORG
+        SET
+        <if test="idType != null">
+            ID_TYPE = #{idType,jdbcType=TINYINT},
+        </if>
+        <if test="name != null">
+            NAME = #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="enName != null">
+            EN_NAME = #{enName,jdbcType=VARCHAR},
+        </if>
+        <if test="idDfsId != null">
+            ID_DFS_ID = #{idDfsId,jdbcType=BIGINT},
+        </if>
+        <if test="idNo != null">
+            ID_NO = #{idNo,jdbcType=VARCHAR},
+        </if>
+        <if test="managementCategory != null">
+            MANAGEMENT_CATEGORY = #{managementCategory,jdbcType=VARCHAR},
+        </if>
+        <if test="licenseBeginDate != null">
+            LICENSE_BEGIN_DATE = #{licenseBeginDate,jdbcType=DATE},
+        </if>
+        <if test="licenseEndDate != null">
+            LICENSE_END_DATE = #{licenseEndDate,jdbcType=DATE},
+        </if>
+        <if test="idType==1">
+            TAX_REGISTRATION_CERT_DFS_ID = null,
+            ORG_CODE_CERT_DFS_ID = null,
+        </if>
+        <if test="idType==2 and taxRegistrationCertDfsId!=null">
+            TAX_REGISTRATION_CERT_DFS_ID = #{taxRegistrationCertDfsId,jdbcType=BIGINT},
+        </if>
+        <if test="idType==2 and orgCodeCertDfsId!=null">
+            ORG_CODE_CERT_DFS_ID = #{orgCodeCertDfsId,jdbcType=BIGINT},
+        </if>
+        <if test="legalName != null">
+            LEGAL_NAME = #{legalName,jdbcType=VARCHAR},
+        </if>
+        <if test="legalIdType != null">
+            LEGAL_ID_TYPE = #{legalIdType,jdbcType=TINYINT},
+        </if>
+        <if test="legalIdNo != null">
+            LEGAL_ID_NO = #{legalIdNo,jdbcType=VARCHAR},
+        </if>
+        <if test="legalIdFrontDfsId != null">
+            LEGAL_ID_FRONT_DFS_ID = #{legalIdFrontDfsId,jdbcType=BIGINT},
+        </if>
+        <if test="legalIdReverseDfsId != null">
+            LEGAL_ID_REVERSE_DFS_ID = #{legalIdReverseDfsId,jdbcType=BIGINT},
+        </if>
+        <if test="legalCertStartDate != null">
+            LEGAL_CERT_START_DATE = #{legalCertStartDate,jdbcType=DATE},
+        </if>
+        <if test="legalCertExpiryDate != null">
+            LEGAL_CERT_EXPIRY_DATE = #{legalCertExpiryDate,jdbcType=DATE},
+        </if>
+        <if test="address != null">
+            ADDRESS = #{address,jdbcType=VARCHAR},
+        </if>
+        <if test="province != null">
+            PROVINCE = #{province,jdbcType=VARCHAR},
+        </if>
+        <if test="city != null">
+            CITY = #{city,jdbcType=VARCHAR},
+        </if>
+        <if test="area != null">
+            AREA = #{area,jdbcType=VARCHAR},
+        </if>
+        <if test="postCode != null">
+            POST_CODE = #{postCode,jdbcType=VARCHAR},
+        </if>
+        <if test="realnameStatus != null">
+            REALNAME_STATUS = #{realnameStatus,jdbcType=VARCHAR},
+        </if>
+        <if test="phoneNumber != null">
+            PHONE_NUMBER = #{phoneNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="email != null">
+            EMAIL = #{email,jdbcType=VARCHAR},
+        </if>
+        <if test="remarks != null">
+            REMARKS = #{remarks,jdbcType=VARCHAR},
+        </if>
+        <if test="longTerm != null">
+            LONG_TERM = #{longTerm,jdbcType=VARCHAR},
+        </if>
+        UPDATE_AT = NOW(),
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+        WHERE
+        USER_INFO_NO = #{userInfoNo,jdbcType=BIGINT}
+    </update>
+
+
+    <!-- 根据userNo 查询 -->
+    <select id="selectInfoByUserNo" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        /* TUserPersonalMapper.selectByUserNo*/
+        select
+            org.ID,
+            org.USER_INFO_NO,
+            org.NAME,
+            org.EN_NAME,
+            org.ID_TYPE,
+            org.ID_DFS_ID,
+            org.ID_NO,
+            org.MANAGEMENT_CATEGORY,
+            org.LICENSE_BEGIN_DATE,
+            org.LICENSE_END_DATE,
+            org.TAX_REGISTRATION_CERT_DFS_ID,
+            org.ORG_CODE_CERT_DFS_ID,
+            org.LEGAL_NAME,
+            org.PROVINCE,
+            org.CITY,
+            org.AREA,
+            org.LEGAL_ID_TYPE,
+            org.LEGAL_ID_NO,
+            org.LEGAL_ID_FRONT_DFS_ID,
+            org.LEGAL_ID_REVERSE_DFS_ID,
+            org.LEGAL_CERT_START_DATE,
+            org.LEGAL_CERT_EXPIRY_DATE,
+            org.ADDRESS,
+            org.POST_CODE,
+            org.REALNAME_STATUS,
+            org.PHONE_NUMBER,
+            org.EMAIL,
+            org.REMARKS,
+            org.CREATE_AT,
+            org.CREATE_BY,
+            org.UPDATE_AT,
+            org.UPDATE_BY,
+            org.LONG_TERM,
+            org.REMARKS
+        from T_USER_INFO info, T_USER_ORG org
+        where info.USER_INFO_NO = org.USER_INFO_NO
+        AND info.USER_NO = #{userNo,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据qualifiedNo 查询 -->
+    <select id="selectInfoByQualifiedNo" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        /* TUserPersonalMapper.selectByUserNo*/
+        select
+        org.ID,
+        org.USER_INFO_NO,
+        org.NAME,
+        org.EN_NAME,
+        org.ID_TYPE,
+        org.ID_DFS_ID,
+        org.ID_NO,
+        org.MANAGEMENT_CATEGORY,
+        org.LICENSE_BEGIN_DATE,
+        org.LICENSE_END_DATE,
+        org.TAX_REGISTRATION_CERT_DFS_ID,
+        org.ORG_CODE_CERT_DFS_ID,
+        org.LEGAL_NAME,
+        org.PROVINCE,
+        org.CITY,
+        org.AREA,
+        org.LEGAL_ID_TYPE,
+        org.LEGAL_ID_NO,
+        org.LEGAL_ID_FRONT_DFS_ID,
+        org.LEGAL_ID_REVERSE_DFS_ID,
+        org.LEGAL_CERT_START_DATE,
+        org.LEGAL_CERT_EXPIRY_DATE,
+        org.ADDRESS,
+        org.POST_CODE,
+        org.REALNAME_STATUS,
+        org.PHONE_NUMBER,
+        org.EMAIL,
+        org.REMARKS,
+        org.CREATE_AT,
+        org.CREATE_BY,
+        org.UPDATE_AT,
+        org.UPDATE_BY,
+        org.LONG_TERM,
+        org.REMARKS
+        from T_ACC_QUALIFIED qual, T_USER_ORG org
+        where qual.USER_INFO_NO = org.USER_INFO_NO
+        AND qual.QUALIFIED_NO = #{qualifiedNo,jdbcType=BIGINT}
+    </select>
+
+
+    <!-- 根据userNo 查询 -->
+    <select id="selectInfoByUserNoList" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        /* TUserPersonalMapper.selectInfoByUserNoList*/
+        SELECT
+            org.ID,
+            org.USER_INFO_NO,
+            org.NAME,
+            org.EN_NAME,
+            org.ID_TYPE,
+            org.ID_DFS_ID,
+            org.ID_NO,
+            org.MANAGEMENT_CATEGORY,
+            org.LICENSE_BEGIN_DATE,
+            org.LICENSE_END_DATE,
+            org.TAX_REGISTRATION_CERT_DFS_ID,
+            org.ORG_CODE_CERT_DFS_ID,
+            org.LEGAL_NAME,
+            org.PROVINCE,
+            org.CITY,
+            org.AREA,
+            org.LEGAL_ID_TYPE,
+            org.LEGAL_ID_NO,
+            org.LEGAL_ID_FRONT_DFS_ID,
+            org.LEGAL_ID_REVERSE_DFS_ID,
+            org.LEGAL_CERT_START_DATE,
+            org.LEGAL_CERT_EXPIRY_DATE,
+            org.ADDRESS,
+            org.POST_CODE,
+            org.REALNAME_STATUS,
+            org.PHONE_NUMBER,
+            org.EMAIL,
+            org.REMARKS,
+            org.CREATE_AT,
+            org.CREATE_BY,
+            org.UPDATE_AT,
+            org.UPDATE_BY,
+            org.LONG_TERM,
+            org.REMARKS
+        FROM
+          T_ACC_QUALIFIED qual, T_USER_ORG org
+        WHERE
+          qual.USER_INFO_NO = org.USER_INFO_NO
+        AND
+          qual.USER_NO = #{userNo,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据email查询-->
+    <select id="queryByEmail" resultMap="BaseResultMap">
+        /* TUserOrgMapper.selectByApplyNo*/
+        SELECT
+          <include refid="Base_Column_List"/>
+        FROM
+          T_USER_ORG
+        WHERE
+          EMAIL = #{email,jdbcType=VARCHAR}
+    </select>
+</mapper>

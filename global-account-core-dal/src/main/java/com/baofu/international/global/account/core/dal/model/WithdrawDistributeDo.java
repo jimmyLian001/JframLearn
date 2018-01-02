@@ -1,0 +1,74 @@
+package com.baofu.international.global.account.core.dal.model;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+/**
+ * 用户提现明细Do
+ *
+ * @author dxy  on 2017/11/21.
+ */
+@Getter
+@Setter
+@ToString
+public class WithdrawDistributeDo {
+
+    /**
+     * 汇款流水号
+     */
+    private String batchNo;
+
+    /**
+     * 下发订单号
+     */
+    private String distributeId;
+
+    /**
+     * 提现申请号
+     */
+    private String withdrawId;
+
+    /**
+     * 姓名
+     */
+    private String bankCardHolder;
+
+    /**
+     * 卡号
+     */
+    private String bankCardNo;
+
+    /**
+     * 下发金额
+     */
+    private BigDecimal distributeAmount;
+
+    /**
+     * 提现状态　：0-待提现；1-提现处理中，2-提现成功，3-提现失败(宝付转账)
+     */
+    private String withdrawStatus;
+
+    /**
+     * 用户号
+     */
+    private String userNo;
+
+    /**
+     * 商户名称
+     */
+    private String userName;
+
+    /**
+     * 申请时间
+     */
+    private Date applyTime;
+
+    /**
+     * 完成时间
+     */
+    private Date finishTime;
+}

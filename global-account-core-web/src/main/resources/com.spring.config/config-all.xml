@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:apollo="http://www.ctrip.com/schema/apollo"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.ctrip.com/schema/apollo http://www.ctrip.com/schema/apollo.xsd">
+    <context:component-scan base-package="com.baofu.international"/>
+
+    <apollo:config namespaces="${namespaces}"/>
+    <bean class="org.springframework.cloud.autoconfigure.RefreshAutoConfiguration"/>
+
+    <import resource="config-db.xml"/>
+    <import resource="config-redis.xml"/>
+    <import resource="classpath:com.dubbo.config/dubbo-provider.xml"/>
+    <import resource="classpath:com.dubbo.config/dubbo-consumer.xml"/>
+    <import resource="classpath:com.mq.config/rabbitmq-consumer.xml"/>
+    <import resource="classpath:com.mq.config/rabbitmq-producer.xml"/>
+
+    <!--dfs配置-->
+    <bean class="com.baofu.international.global.account.core.biz.impl.DfsConfigInitImpl" init-method="init">
+        <property name="zookeeperAddress" value="${dfs.zookeeper}"/>
+        <property name="trackerAdds" value="${dfs.trackers}"/>
+        <property name="secretKey" value="${dfs.secretKey}"/>
+    </bean>
+</beans>

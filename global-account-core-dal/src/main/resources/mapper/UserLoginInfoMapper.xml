@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baofu.international.global.account.core.dal.mapper.UserLoginInfoMapper">
+    <resultMap id="BaseResultMap" type="com.baofu.international.global.account.core.dal.model.UserLoginInfoDo">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="LOGIN_NO" jdbcType="VARCHAR" property="loginNo"/>
+        <result column="USER_NO" jdbcType="BIGINT" property="userNo"/>
+        <result column="USER_TYPE" jdbcType="TINYINT" property="userType"/>
+        <result column="LOGIN_TYPE" jdbcType="TINYINT" property="loginType"/>
+        <result column="LOGIN_STATE" jdbcType="TINYINT" property="loginState"/>
+        <result column="LAST_LOGIN_AT" jdbcType="TIMESTAMP" property="lastLoginAt"/>
+        <result column="REMARKS" jdbcType="VARCHAR" property="remarks"/>
+        <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt"/>
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy"/>
+        <result column="UPDATE_AT" jdbcType="TIMESTAMP" property="updateAt"/>
+        <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="USER_TYPE" jdbcType="TINYINT" property="userType"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID, LOGIN_NO, USER_NO, LOGIN_TYPE, LOGIN_STATE, LAST_LOGIN_AT, REMARKS, CREATE_AT,
+        CREATE_BY, UPDATE_AT, UPDATE_BY,USER_TYPE
+    </sql>
+    <select id="selectByKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select 'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from T_USER_LOGIN_INFO
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <insert id="insert" parameterType="com.baofu.international.global.account.core.dal.model.UserLoginInfoDo">
+        insert into T_USER_LOGIN_INFO (ID, LOGIN_NO, USER_NO,
+        LOGIN_TYPE, LOGIN_STATE, LAST_LOGIN_AT,
+        REMARKS, CREATE_AT, CREATE_BY,
+        UPDATE_AT, UPDATE_BY)
+        values (#{id,jdbcType=BIGINT}, #{loginNo,jdbcType=VARCHAR}, #{userNo,jdbcType=BIGINT},
+        #{loginType,jdbcType=TINYINT}, #{loginState,jdbcType=TINYINT}, #{lastLoginAt,jdbcType=TIMESTAMP},
+        #{remarks,jdbcType=VARCHAR}, NOW(), #{createBy,jdbcType=VARCHAR},
+        NOW(), #{updateBy,jdbcType=VARCHAR})
+    </insert>
+
+    <!-- 根据登录号查询 -->
+    <select id="findByLoginNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        T_USER_LOGIN_INFO TULI
+        WHERE
+        TULI.LOGIN_NO = #{loginNo,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据loginNo查询记录条数-->
+    <select id="selectUseLoginInfoNum" parameterType="java.lang.String" resultType="java.lang.Integer">
+        /**TUserLoginInfoMapper.selectUseLoginInfoNum**/
+        SELECT
+        COUNT(1)
+        FROM
+        T_USER_LOGIN_INFO
+        WHERE
+        LOGIN_NO = #{loginNo,jdbcType=VARCHAR}
+    </select>
+
+    <!--新增用户登录信息-->
+    <insert id="insertInfo" parameterType="com.baofu.international.global.account.core.dal.model.UserLoginInfoDo">
+        /**TUserLoginInfoMapper.insertUseLoginInfo**/
+        INSERT INTO T_USER_LOGIN_INFO(LOGIN_NO,USER_NO,LOGIN_TYPE,
+        LOGIN_STATE,LAST_LOGIN_AT,REMARKS,
+        CREATE_AT,CREATE_BY,UPDATE_AT,UPDATE_BY,USER_TYPE)
+        VALUES (#{loginNo,jdbcType=VARCHAR},#{userNo,jdbcType=BIGINT},#{loginType,jdbcType=TINYINT},
+        #{loginState,jdbcType=TINYINT},NOW(),#{remarks,jdbcType=VARCHAR},
+        NOW(),#{createBy,jdbcType=VARCHAR},NOW(),#{updateBy,jdbcType=VARCHAR},#{userType,jdbcType=TINYINT})
+    </insert>
+
+    <!-- 更新状态 -->
+    <update id="updateByUserNo" parameterType="com.baofu.international.global.account.core.dal.model.UserLoginInfoDo">
+        update T_USER_LOGIN_INFO
+        <set>
+            <if test="loginNo != null">
+                LOGIN_NO = #{loginNo,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            UPDATE_AT = NOW()
+        </set>
+        where LOGIN_STATE = 1
+        AND LOGIN_TYPE= 2
+        AND USER_NO = #{userNo,jdbcType=BIGINT}
+    </update>
+
+    <!-- 查询用户注册手机信息 -->
+    <select id="queryUserInfoByUserNo" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        T_USER_LOGIN_INFO
+        WHERE LOGIN_STATE = 1
+        AND LOGIN_TYPE= 2
+        AND USER_NO = #{userNo,jdbcType=BIGINT}
+    </select>
+
+    <!-- 查询用户注册手机信息 -->
+    <select id="queryUserInfoListByUserNo" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        T_USER_LOGIN_INFO
+        WHERE LOGIN_STATE = 1
+        AND USER_NO = #{userNo,jdbcType=BIGINT}
+    </select>
+    <!-- 查询用户注册手机信息 -->
+    <select id="queryUserInfo" resultMap="BaseResultMap"
+            parameterType="com.baofu.international.global.account.core.dal.model.UserLoginInfoDo">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        T_USER_LOGIN_INFO
+        WHERE LOGIN_STATE = 1
+        AND USER_TYPE= #{loginType,jdbcType=TINYINT}
+        AND USER_NO = #{userNo,jdbcType=BIGINT}
+        AND LOGIN_NO = #{loginNo,jdbcType=VARCHAR}
+    </select>
+</mapper>

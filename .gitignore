@@ -19,6 +19,7 @@ Thumbs.db
 .idea
 .idea/*.xml
 */*.iml
-
+pom.xml.versionsBackup
 /test/*
 web/src/test/resources/
+*/tmp/

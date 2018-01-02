@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baofu.international.global.account.core.dal.mapper.ExchangeRateMapper">
+  <resultMap id="BaseResultMap" type="com.baofu.international.global.account.core.dal.model.ExchangeRateDo">
+    <id column="ID"                   jdbcType="BIGINT"     property="id" />
+    <result column="CHANNEL_ID"       jdbcType="BIGINT"     property="channelId" />
+    <result column="CCY"              jdbcType="CHAR"       property="ccy" />
+    <result column="BID_RATE_OF_CCY"  jdbcType="DECIMAL"    property="bidRateOfCcy" />
+    <result column="OFR_RATE_OF_CCY"  jdbcType="DECIMAL"    property="ofrRateOfCcy" />
+    <result column="BID_RATE_OF_CASH" jdbcType="DECIMAL"    property="bidRateOfCash" />
+    <result column="OFR_RATE_OF_CASH" jdbcType="DECIMAL"    property="ofrRateOfCash" />
+    <result column="status"           jdbcType="INTEGER"    property="status" />
+    <result column="REMARKS"          jdbcType="VARCHAR"    property="remarks" />
+    <result column="CREATE_AT"        jdbcType="TIMESTAMP"  property="createAt" />
+    <result column="CREATE_BY"        jdbcType="VARCHAR"    property="createBy" />
+    <result column="UPDATE_AT"        jdbcType="TIMESTAMP"  property="updateAt" />
+    <result column="UPDATE_BY"        jdbcType="VARCHAR"    property="updateBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CHANNEL_ID, CCY, BID_RATE_OF_CCY, OFR_RATE_OF_CCY, BID_RATE_OF_CASH, OFR_RATE_OF_CASH, 
+    status, REMARKS, CREATE_AT, CREATE_BY, UPDATE_AT, UPDATE_BY
+  </sql>
+  <select id="selectRateInfo" parameterType="com.baofu.international.global.account.core.dal.model.ExchangeRateDo" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM T_EXCHANGE_RATE
+    WHERE
+    CCY = #{ccy,jdbcType=CHAR}
+    <if test="channelId !=null">
+      AND CHANNEL_ID = #{channelId,jdbcType=BIGINT}
+    </if>
+    <if test="status !=null">
+      AND status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="createAt !=null">
+      AND DATE_FORMAT(CREATE_AT,'%Y-%m-%d') = DATE_FORMAT(#{createAt},'%Y-%m-%d')
+    </if>
+  </select>
+  <insert id="insert" parameterType="com.baofu.international.global.account.core.dal.model.ExchangeRateDo">
+    insert into T_EXCHANGE_RATE (
+      CHANNEL_ID,
+      CCY,
+      BID_RATE_OF_CCY,
+      OFR_RATE_OF_CCY,
+      BID_RATE_OF_CASH,
+      OFR_RATE_OF_CASH,
+      status,
+      REMARKS,
+      CREATE_AT,
+      CREATE_BY,
+      UPDATE_AT,
+      UPDATE_BY)
+    values (
+      #{channelId,jdbcType=BIGINT},
+      #{ccy,jdbcType=CHAR},
+      #{bidRateOfCcy,jdbcType=DECIMAL},
+      #{ofrRateOfCcy,jdbcType=DECIMAL},
+      #{bidRateOfCash,jdbcType=DECIMAL},
+      #{ofrRateOfCash,jdbcType=DECIMAL},
+      #{status,jdbcType=INTEGER},
+      #{remarks,jdbcType=VARCHAR},
+      NOW(),
+      #{createBy,jdbcType=VARCHAR},
+      NOW(),
+      #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateExchangeRate" parameterType="com.baofu.international.global.account.core.dal.model.ExchangeRateDo">
+    UPDATE T_EXCHANGE_RATE
+    SET
+    <if test="bidRateOfCcy !=null">
+      BID_RATE_OF_CCY = #{bidRateOfCcy,jdbcType=DECIMAL},
+    </if>
+    UPDATE_AT = NOW()
+    WHERE
+    CCY = #{ccy,jdbcType=CHAR}
+    <if test="channelId !=null">
+      AND CHANNEL_ID = #{channelId,jdbcType=BIGINT}
+    </if>
+    <if test="status !=null">
+      AND status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="createAt !=null">
+      AND DATE_FORMAT(CREATE_AT,'%Y-%m-%d') = DATE_FORMAT(#{createAt},'%Y-%m-%d')
+    </if>
+  </update>
+</mapper>

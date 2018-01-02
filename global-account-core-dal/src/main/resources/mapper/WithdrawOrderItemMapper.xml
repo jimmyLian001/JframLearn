@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baofu.international.global.account.core.dal.mapper.WithdrawOrderItemMapper">
+  <resultMap id="BaseResultMap" type="com.baofu.international.global.account.core.dal.model.WithdrawOrderItemDo">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="COMMODITY_NAME" jdbcType="VARCHAR" property="commodityName" />
+    <result column="ORDER_ID" jdbcType="BIGINT" property="orderId" />
+    <result column="COMMODITY_AMOUNT" jdbcType="BIGINT" property="commodityAmount" />
+    <result column="COMMODITY_PRICE" jdbcType="DECIMAL" property="commodityPrice" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="UPDATE_AT" jdbcType="TIMESTAMP" property="updateAt" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, COMMODITY_NAME, ORDER_ID, COMMODITY_AMOUNT, COMMODITY_PRICE, CREATE_AT, CREATE_BY, 
+    UPDATE_AT, UPDATE_BY
+  </sql>
+  <select id="selectByKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from T_WITHDRAW_ORDER_ITEM
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <!--批量添加网关订单商品信息-->
+  <insert id="batchInsert" parameterType="com.baofu.international.global.account.core.dal.model.WithdrawOrderItemDo">
+    INSERT INTO T_WITHDRAW_ORDER_ITEM (
+    ORDER_ID,
+    COMMODITY_NAME,
+    COMMODITY_PRICE,
+    COMMODITY_AMOUNT,
+    CREATE_AT,
+    CREATE_BY,
+    UPDATE_AT,
+    UPDATE_BY
+    )VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+      (
+      #{item.orderId,jdbcType=BIGINT},
+      #{item.commodityName,jdbcType=VARCHAR},
+      #{item.commodityPrice,jdbcType=DECIMAL},
+      #{item.commodityAmount,jdbcType=INTEGER},
+      NOW(),
+      #{item.createBy,jdbcType=VARCHAR},
+      NOW(),
+      #{item.updateBy,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+
+</mapper>
