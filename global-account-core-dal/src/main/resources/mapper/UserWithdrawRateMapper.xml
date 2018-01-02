@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baofu.international.global.account.core.dal.mapper.UserWithdrawRateMapper">
+    <resultMap id="BaseResultMap" type="com.baofu.international.global.account.core.dal.model.WithdrawRateRespDo">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="RECORD_ID" jdbcType="BIGINT" property="recordId"/>
+        <result column="USER_NO" jdbcType="BIGINT" property="userNo"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="USER_RATE" jdbcType="DECIMAL" property="rate"/>
+        <result column="CCY" jdbcType="CHAR" property="bankAccCcy"/>
+        <result column="USER_TYPE" jdbcType="TINYINT" property="userType"/>
+        <result column="STATUS" jdbcType="TINYINT" property="rateSetState"/>
+        <!--<result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt"/>
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy"/>
+        <result column="UPDATE_AT" jdbcType="TIMESTAMP" property="updateAt"/>
+        <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy"/>-->
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID, RECORD_ID, USER_NO, USER_NAME, USER_RATE, CCY, USER_TYPE,
+        STATUS
+    </sql>
+
+    <!-- 插入数据 -->
+    <insert id="addWithdrawRate" parameterType="com.baofu.international.global.account.core.dal.model.WithdrawRateReqDo">
+        INSERT INTO CBCA.T_USER_WITHDRAW_RATE (
+        RECORD_ID, USER_NO, USER_NAME, USER_RATE, CCY, USER_TYPE,
+        STATUS, CREATE_AT, CREATE_BY,UPDATE_AT,UPDATE_BY
+        ) VALUES (
+        #{recordId},
+        #{userNo},
+        #{userName},
+        #{rate},
+        #{bankAccCcy},
+        #{userType},
+        #{rateSetState},
+        NOW(),
+        #{createBy},
+        NOW(),
+        #{updateBy}
+        )
+    </insert>
+
+    <!-- 根据记录号修改 -->
+    <update id="updateByOrderId" parameterType="com.baofu.international.global.account.core.dal.model.WithdrawRateReqDo" >
+        UPDATE CBCA.T_USER_WITHDRAW_RATE
+        <set>
+            <if test="rate != null  and rate !=''  ">
+                USER_RATE = #{rate,jdbcType=BIGINT},
+            </if>
+            <if test="updateBy != null  and updateBy !=''  ">
+                UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            UPDATE_AT = NOW()
+        </set>
+        WHERE RECORD_ID = #{recordId,jdbcType=BIGINT}
+    </update>
+
+    <!-- 提现查询 -->
+    <select id="searchWithdrawRateList" parameterType="com.baofu.international.global.account.core.dal.model.WithdrawRateReqDo"
+            resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM CBCA.T_USER_WITHDRAW_RATE
+        WHERE 1=1
+        <if test="userType != null and userType !='' ">
+            AND USER_TYPE = #{userType,jdbcType=CHAR}
+        </if>
+        <if test="bankAccCcy != null and bankAccCcy !='' ">
+            AND CCY = #{bankAccCcy,jdbcType=VARCHAR}
+        </if>
+        <if test="rateSetState != null and rateSetState !='' ">
+            AND STATUS = #{rateSetState,jdbcType=TINYINT}
+        </if>
+        <if test="userNo != null and userNo !='' ">
+            AND USER_NO = #{userNo,jdbcType=BIGINT}
+        </if>
+        ORDER BY CREATE_AT DESC
+    </select>
+
+    <!-- 根据用户号和币种查询有效设置费率 -->
+    <select id="queryUserSetWithdrawRate" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM T_USER_WITHDRAW_RATE
+        WHERE
+        USER_NO = #{userNo,jdbcType=BIGINT}
+        AND STATUS = 1
+        <if test="ccy != null and ccy !='' ">
+            AND CCY = #{ccy,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+</mapper>

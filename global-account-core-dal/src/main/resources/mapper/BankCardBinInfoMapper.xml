@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baofu.international.global.account.core.dal.mapper.BankCardBinInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.baofu.international.global.account.core.dal.model.BankCardBinInfoDo">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="BANK_NAME" jdbcType="VARCHAR" property="bankName"/>
+        <result column="BANK_CODE" jdbcType="VARCHAR" property="bankCode"/>
+        <result column="CARD_NAME" jdbcType="VARCHAR" property="cardName"/>
+        <result column="CARD_TYPE" jdbcType="VARCHAR" property="cardType"/>
+        <result column="CARD_LENGTH" jdbcType="INTEGER" property="cardLength"/>
+        <result column="CARD_BIN" jdbcType="VARCHAR" property="cardBin"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID, BANK_NAME, BANK_CODE, CARD_NAME, CARD_TYPE, CARD_LENGTH, CARD_BIN
+    </sql>
+
+    <insert id="insert" parameterType="com.baofu.international.global.account.core.dal.model.BankCardBinInfoDo">
+        insert into T_BANK_CARD_BIN_INFO (ID, BANK_NAME, BANK_CODE,
+        CARD_NAME, CARD_TYPE, CARD_LENGTH,
+        CARD_BIN)
+        values (#{id,jdbcType=BIGINT}, #{bankName,jdbcType=VARCHAR}, #{bankCode,jdbcType=VARCHAR},
+        #{cardName,jdbcType=VARCHAR}, #{cardType,jdbcType=VARCHAR}, #{cardLength,jdbcType=INTEGER},
+        #{cardBin,jdbcType=VARCHAR})
+    </insert>
+
+    <!--查询卡bin-->
+    <select id="queryListByCardBin" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM  T_BANK_CARD_BIN_INFO
+        WHERE
+              CARD_BIN = #{cardBin,jdbcType=VARCHAR}
+    </select>
+</mapper>

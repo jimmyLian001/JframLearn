@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/rabbit
+        http://www.springframework.org/schema/rabbit/spring-rabbit-1.3.xsd">
+
+    <!-- 配置连接工厂 -->
+    <rabbit:connection-factory id="connectionFactory"
+                               host="${rabbitmq.address}"
+                               port="${rabbitmq.port}"
+                               username="${rabbitmq.username}"
+                               password="${rabbitmq.password}"
+                               virtual-host="${rabbitmq.vhost}"
+                               connection-factory="refConnectionFactory"/>
+
+    <!-- 配置心跳、超时、自动恢复-->
+    <bean id="refConnectionFactory" class="com.rabbitmq.client.ConnectionFactory">
+        <property name="requestedHeartbeat" value="240"/>
+        <property name="connectionTimeout" value="10000"/>
+        <property name="automaticRecoveryEnabled" value="true"/>
+    </bean>
+
+    <!-- 配置消费者监听器，指定队列名及监听类 -->
+    <rabbit:listener-container connection-factory="connectionFactory" prefetch="1" concurrency="1" max-concurrency="1"
+                               acknowledge="auto">
+        <!-- WYRE 开户受理结果渠道第一次异步通知MQ -->
+        <rabbit:listener queue-names="GLOBAL_CREATE_USER_QUEUE_NAME_ONE" ref="addAccountFirstNotifyListener"/>
+        <!-- WYRE 开户结果渠道第二次异步通知MQ -->
+        <rabbit:listener queue-names="GLOBAL_CREATE_USER_QUEUE_NAME_TWO" ref="addAccountSecResultListener"/>
+
+        <!-- 转账第一次通知MQ -->
+        <rabbit:listener queue-names="GLOBAL_WITHDRAW_APPLY_QUEUE_NAME" ref="userWithdrawFirstListener"/>
+        <!-- 转账第二次通知MQ -->
+        <rabbit:listener queue-names="GLOBAL_WITHDRAW_CALL_QUEUE_NAME" ref="userWithdrawSecondListener"/>
+        <!-- 修改提现申请监听消息 -->
+        <rabbit:listener queue-names="GLOBAL_USER_WITHDRAW_APPLY_QUEUE_NAME" ref="userWithdrawApplyListener"/>
+        <!-- 收款账户收支明细MQ-->
+        <rabbit:listener queue-names="GLOBAL_WYRE_RECEIPT_QUEUE_NAME" ref="paymentDetailListener"/>
+        <!-- 用户发起汇入汇款申请MQ-->
+        <rabbit:listener queue-names="GLOBAL_USER_SETTLE_APPLY_QUEUE_NAME" ref="userSettleApplyListener"/>
+        <!-- 用户提现创建订单MQ-->
+        <rabbit:listener queue-names="GLOBAL_USER_CREATE_ORDER_QUEUE_NAME" ref="userWithdrawOrderListener"/>
+        <!-- Skyee 用户开户数据导出-->
+        <rabbit:listener queue-names="SKYEE_USER_ACC_APPLY_DATA_ZIP_EXPORT" ref="downloadUserApplyAccListener"/>
+
+        <!-- Skyee 收支明细导入-->
+        <rabbit:listener queue-names="GLOBAL_SKYEE_ACC_DETAIL_QUEUE_NAME" ref="skyeePaymentDetailListener"/>
+    </rabbit:listener-container>
+</beans>

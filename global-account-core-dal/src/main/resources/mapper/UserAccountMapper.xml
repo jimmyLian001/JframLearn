@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baofu.international.global.account.core.dal.mapper.UserAccountMapper">
+    <resultMap id="BaseResultMap" type="com.baofu.international.global.account.core.dal.model.UserPayeeAccountDo">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="USER_NO"        jdbcType="BIGINT" property="userNo"/>
+        <result column="BANK_ACC_NO"    jdbcType="VARCHAR" property="bankAccNo"/>
+        <result column="BANK_ACC_NAME"  jdbcType="VARCHAR" property="bankAccName"/>
+        <result column="ROUTING_NUMBER" jdbcType="VARCHAR" property="routingNumber"/>
+        <result column="CCY"            jdbcType="CHAR" property="ccy"/>
+        <result column="WALLET_ID"      jdbcType="VARCHAR" property="walletId"/>
+        <result column="STATUS"         jdbcType="TINYINT" property="status"/>
+        <result column="REMARKS"        jdbcType="VARCHAR" property="remarks"/>
+        <result column="CREATE_AT"      jdbcType="TIMESTAMP" property="createAt"/>
+        <result column="CREATE_BY"      jdbcType="VARCHAR" property="createBy"/>
+        <result column="UPDATE_AT"      jdbcType="TIMESTAMP" property="updateAt"/>
+        <result column="UPDATE_BY"      jdbcType="VARCHAR" property="updateBy"/>
+        <result column="CHANNEL_ID"     jdbcType="BIGINT" property="channelId"/>
+        <result column="QUALIFIED_NO"   jdbcType="BIGINT" property="qualifiedNo"/>
+        <result column="ACCOUNT_NO"     jdbcType="BIGINT" property="accountNo"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID,
+        USER_NO,
+        BANK_ACC_NO,
+        ROUTING_NUMBER,
+        CCY,
+        WALLET_ID,
+        STATUS,
+        REMARKS,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY,
+        CHANNEL_ID,
+        QUALIFIED_NO,
+        ACCOUNT_NO,
+        BANK_ACC_NAME
+    </sql>
+
+    <!--根据用户号和银行账户号查询收款账户信息-->
+    <select id="selectPayeeAccount" resultMap="BaseResultMap">
+        /*TUserPayeeAccountMapper.selectPayeeAccount*/
+        SELECT
+          <include refid="Base_Column_List"/>
+        FROM
+          T_USER_PAYEE_ACCOUNT
+        WHERE
+          USER_NO = #{userNo,jdbcType=BIGINT}
+        <if test="bankAccNo !=null and bankAccNo!=''">
+            AND BANK_ACC_NO =#{bankAccNo}
+        </if>
+    </select>
+    <!--根据用户号和银行账户号币种查询收款账户信息-->
+    <select id="selectPayeeAccountByCcy" resultMap="BaseResultMap">
+        /*TUserPayeeAccountMapper.selectPayeeAccountByCcy*/
+        SELECT
+          <include refid="Base_Column_List"/>
+        FROM
+          T_USER_PAYEE_ACCOUNT
+        WHERE
+          USER_NO = #{userNo,jdbcType=BIGINT}
+        <if test="bankAccNo !=null and bankAccNo!=''">
+            AND BANK_ACC_NO =#{bankAccNo}
+        </if>
+        <if test="ccy !=null and ccy!=''">
+            AND CCY =#{ccy}
+        </if>
+    </select>
+    <update id="updateAccountByAccountNo" parameterType="com.baofu.international.global.account.core.dal.model.UserPayeeAccountDo">
+        UPDATE
+          T_USER_PAYEE_ACCOUNT
+        SET
+          ROUTING_NUMBER=#{routingNumber,jdbcType=VARCHAR},
+          BANK_ACC_NO= #{bankAccNo,jdbcType=VARCHAR},
+          <if test="bankAccName !=null and bankAccName !=''">
+              BANK_ACC_NAME = #{bankAccName,jdbcType=VARCHAR},
+          </if>
+          UPDATE_AT = NOW()
+        WHERE
+        ACCOUNT_NO = #{accountNo,jdbcType=BIGINT}
+    </update>
+    <insert id="insert" parameterType="com.baofu.international.global.account.core.dal.model.UserPayeeAccountDo">
+        INSERT INTO T_USER_PAYEE_ACCOUNT (
+        USER_NO,
+        BANK_ACC_NO,
+        ROUTING_NUMBER,
+        CCY,
+        WALLET_ID,
+        STATUS,
+        REMARKS,
+        CREATE_AT,
+        CREATE_BY,
+        UPDATE_AT,
+        UPDATE_BY,
+        CHANNEL_ID,
+        QUALIFIED_NO,
+        ACCOUNT_NO,
+        BANK_ACC_NAME)
+        values (
+        #{userNo,jdbcType=BIGINT},
+        #{bankAccNo,jdbcType=VARCHAR},
+        #{routingNumber,jdbcType=VARCHAR},
+        #{ccy,jdbcType=CHAR},
+        #{walletId,jdbcType=VARCHAR},
+        #{status,jdbcType=TINYINT},
+        #{remarks,jdbcType=VARCHAR},
+        NOW(),
+        #{createBy,jdbcType=VARCHAR},
+        NOW(),
+        #{updateBy,jdbcType=VARCHAR},
+        #{channelId,jdbcType=BIGINT},
+        #{qualifiedNo,jdbcType=BIGINT},
+        #{accountNo,jdbcType=BIGINT},
+        #{bankAccName,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!-- 根据商户号查询有效的账户信息 -->
+    <select id="selectUserAccountInfo" parameterType="com.baofu.international.global.account.core.dal.model.UserPayeeAccountDo"
+            resultMap="BaseResultMap">
+        /*TUserPayeeAccountMapper.selectUserAccountInfo*/
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_USER_PAYEE_ACCOUNT tpa
+        WHERE 1 = 1
+        <if test="userNo !=null ">
+            AND tpa.USER_NO = #{userNo}
+        </if>
+        <if test="channelId !=null ">
+            AND tpa.CHANNEL_ID = #{channelId}
+        </if>
+        <if test="ccy !=null ">
+            AND tpa.CCY = #{ccy}
+        </if>
+        <if test="status !=null ">
+            AND tpa.STATUS = #{status}
+        </if>
+        <if test="bankAccNo !=null ">
+            AND tpa.BANK_ACC_NO = #{bankAccNo}
+        </if>
+        <if test="walletId !=null ">
+            AND tpa.WALLET_ID = #{walletId}
+        </if>
+        <if test="accountNo !=null ">
+            AND tpa.ACCOUNT_NO = #{accountNo}
+        </if>
+
+    </select>
+
+
+    <!-- 根据用户号和币种查询BankAccNo-->
+    <select id="queryUserStoreByCcy" parameterType="com.baofu.international.global.account.core.dal.model.UserAccInfoReqDo"
+            resultType="com.baofu.international.global.account.core.dal.model.UserStoreInfoRespDo">
+        /*TUserPayeeAccountMapper.queryUserAccInfo*/
+          SELECT
+            tpa.ACCOUNT_NO AS userAccNo,
+            tus.STORE_NAME AS storeName
+          FROM
+            T_USER_PAYEE_ACCOUNT_APPLY tpa
+          LEFT JOIN T_USER_STORE tus ON tpa.STORE_NO = tus.STORE_NO
+          WHERE
+            tpa.USER_NO = #{userNo}
+          AND
+            tpa.CCY = #{ccy}
+          AND
+            tpa.STATUS=2
+    </select>
+
+    <!-- 根据商户号查询有效的账户信息 -->
+    <select id="selectUserAccountAccNo" parameterType="com.baofu.international.global.account.core.dal.model.UserPayeeAccountDo"
+            resultMap="BaseResultMap">
+        /*TUserPayeeAccountMapper.selectUserAccountAccNo*/
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+          T_USER_PAYEE_ACCOUNT
+        WHERE
+          ACCOUNT_NO = #{accountNo,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据店铺编号和银行卡号查询账户信息 -->
+    <select id="selectUserAccount" resultMap="BaseResultMap">
+        /*TUserPayeeAccountMapper.selectUserAccount*/
+        SELECT
+            ACCOUNT.ID,
+            ACCOUNT.USER_NO,
+            ACCOUNT.BANK_ACC_NO,
+            ACCOUNT.ROUTING_NUMBER,
+            ACCOUNT.CCY,
+            ACCOUNT.WALLET_ID,
+            ACCOUNT.STATUS,
+            ACCOUNT.REMARKS,
+            ACCOUNT.CREATE_AT,
+            ACCOUNT.CREATE_BY,
+            ACCOUNT.UPDATE_AT,
+            ACCOUNT.UPDATE_BY,
+            ACCOUNT.CHANNEL_ID,
+            ACCOUNT.QUALIFIED_NO,
+            ACCOUNT.ACCOUNT_NO,
+            ACCOUNT.BANK_ACC_NAME
+        FROM
+          T_USER_PAYEE_ACCOUNT ACCOUNT
+        INNER JOIN T_USER_PAYEE_ACCOUNT_APPLY APPLY ON ACCOUNT.ACCOUNT_NO = APPLY.ACCOUNT_NO
+        INNER JOIN T_USER_STORE STORE ON STORE.STORE_NO = APPLY.STORE_NO
+        WHERE
+        SELLER_ID= #{sellerId,jdbcType=VARCHAR}
+        AND
+        BANK_ACC_NO= #{bankCardNo,jdbcType=VARCHAR}
+    </select>
+</mapper>
