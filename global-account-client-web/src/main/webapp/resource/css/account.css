@@ -1,0 +1,612 @@
+.page {
+    margin-bottom: 100px
+}
+
+.page-hd {
+}
+
+.page-bd {
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, .14)
+}
+
+.page .bread {
+    height: 50px;
+    font-size: 14px;
+    line-height: 50px
+}
+
+.page .bread a {
+    color: #000
+}
+
+.page .bread span {
+    color: #999
+}
+
+.page-bd .title-bar {
+    height: 81px;
+    padding-left: 48px;
+    padding-top: 31px;
+    background: #fff
+}
+
+.page-bd .title-bar h2 {
+    font-size: 24px;
+    line-height: 40px;
+    color: #1a1a1a
+}
+
+.page-bd .title-bar p {
+    font-size: 14px;
+    color: #999
+}
+
+.withdraw-result {
+    background: #fffada;
+    font-size: 18px;
+    font-weight: 400;
+    padding: 16px 30px;
+    margin: 0 100px;
+    line-height: 36px;
+    border: 1px solid #f3e4cf
+}
+
+.withdraw-result i {
+    font-size: 36px;
+    vertical-align: top;
+    display: inline-block;
+    margin-right: 14px;
+    color: #69c50f
+}
+
+.withdraw-tips {
+    margin: 45px 100px;
+    padding: 0 30px;
+    color: #999;
+    overflow: hidden
+}
+
+.withdraw-tips h3 {
+    font-size: 18px;
+    color: #fafafa;
+    margin: 30px 0 50px
+}
+
+.withdraw-step {
+    padding: 60px 0 80px;
+    margin: 0 0 0 260px;
+    position: relative
+}
+
+.withdraw-step > div {
+    display: inline-block;
+    position: relative;
+    padding-bottom: 18px
+}
+
+.withdraw-step > div:after {
+    content: "";
+    width: 508px;
+    height: 4px;
+    background: #DBDBDB;
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    border-radius: 10px
+}
+
+.withdraw-step > div:before {
+    content: "";
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    height: 4px;
+    background: #69c50f;
+    position: absolute;
+    border-radius: 10px;
+    z-index: 2
+}
+
+.withdraw-step > div div {
+    text-align: left;
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    width: 272px;
+    margin-left: -20px
+}
+
+.withdraw-step > div div:after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border: 2px solid #69c50f;
+    display: block;
+    position: absolute;
+    background: #fff;
+    left: 20px;
+    bottom: -22px;
+    border-radius: 50%
+}
+
+.withdraw-step > div div.cur:after {
+    background: #69c50f;
+    border-color: #69c50f
+}
+
+.withdraw-step > div div > p {
+    line-height: 22px
+}
+
+.withdraw-step > div div > h4 {
+    line-height: 22px
+}
+
+.withdraw-step > div div.cur > h4 {
+    color: #60c100
+}
+
+.withdraw-action-tips {
+    width: 590px;
+    margin: 0 auto;
+    padding: 20px 0;
+    color: #999
+}
+
+.withdraw-action {
+    width: 590px;
+    margin: 0 auto;
+    border-top: 1px solid #dfe0e2;
+    padding: 20px 60px
+}
+
+.withdraw-action a {
+    margin: 0 20px 0 0;
+    font-weight: 400
+}
+
+.bankicon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    display: inline-block;
+    margin-top: -2px;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: 0 0
+}
+
+.bankicon.psbc {
+    background-position: 0 0
+}
+
+.bankicon.icbc {
+    background-position: 0 -25px
+}
+
+.bankicon.abc {
+    background-position: 0 -50px
+}
+
+.bankicon.boc {
+    background-position: 0 -75px
+}
+
+.bankicon.ccb {
+    background-position: 0 -100px
+}
+
+.bankicon.bcm {
+    background-position: 0 -125px
+}
+
+.bankicon.citic {
+    background-position: 0 -150px
+}
+
+.bankicon.ceb {
+    background-position: 0 -175px
+}
+
+.bankicon.hxbank {
+    background-position: 0 -200px
+}
+
+.bankicon.cmbc {
+    background-position: 0 -225px
+}
+
+.bankicon.gdb {
+    background-position: 0 -250px
+}
+
+.bankicon.pingan {
+    background-position: 0 -275px
+}
+
+.bankicon.cmb {
+    background-position: 0 -300px
+}
+
+.bankicon.cib {
+    background-position: 0 -325px
+}
+
+.bankicon.spdb {
+    background-position: 0 -350px
+}
+
+.bankicon.shbank {
+    background-position: 0 -375px
+}
+
+.bankicon.bjbank {
+    background-position: 0 -400px
+}
+
+.bankicon.nbbank {
+    background-position: 0 -425px
+}
+
+.bankicon.hzbank {
+    background-position: 0 -450px
+}
+
+.bankicon.bsbank {
+    background-position: 0 -475px
+}
+
+.bankicon.jsbank {
+    background-position: 0 -500px
+}
+
+.bankicon.crbank {
+    background-position: 0 -525px
+}
+
+.bankicon.czbank {
+    background-position: 0 -550px
+}
+
+.bankicon.dgbank {
+    background-position: 0 -575px
+}
+
+.bankicon.gdnybank {
+    background-position: 0 -600px
+}
+
+.bankicon.gzbank {
+    background-position: 0 -625px
+}
+
+.virtual-box-bgWhite {
+    background-color: #fff;
+    padding-bottom: 50px
+}
+
+.virtual-box .virtual-cards {
+    padding: 40px 0 24px;
+}
+
+.virtual-box .total-bar {
+    width: 980px;
+    margin: 0 auto 10px
+}
+
+.virtual-box .total-bar h3 {
+    float: left;
+    font-size: 16px;
+    color: #1a1a1a;
+    font-weight: 400
+}
+
+.virtual-box .total-bar span {
+    float: right;
+    font-size: 14px;
+    color: #1a1a1a
+}
+
+.virtual-box .virtual-cards .cards-title {
+    float: left;
+    width: 250px;
+    font-size: 16px;
+    color: #999
+}
+
+.virtual-box .virtual-cards .cards-title span, .virtual-box .virtual-cards .cards-title strong {
+    display: block;
+    padding-left: 20px;
+    line-height: 26px;
+    text-align: right
+}
+
+.virtual-box .virtual-cards .cards-title strong {
+    color: #000
+}
+
+.virtual-box .cards-list {
+    padding-left: 305px
+}
+
+.virtual-box .cards-list .addbankcard {
+    width: 236px !important;
+    height: 133.98px !important;
+    box-sizing: border-box;
+    padding-top: 50px !important;
+    text-align: center;
+    font-size: 16px;
+    color: #0094d9
+}
+
+.virtual-box .cards-list .addbankcard a {
+    display: block
+}
+
+.virtual-box .cards-list .addbankcard span {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+    margin-top: -3px
+}
+
+.virtual-box .cards-list .addbankcard span:before {
+    display: inline-block;
+    position: absolute;
+    top: 6px;
+    left: 0;
+    content: "";
+    width: 14px;
+    height: 2px;
+    background: #0094d9
+}
+
+.virtual-box .cards-list .addbankcard span:after {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 6px;
+    content: "";
+    width: 2px;
+    height: 14px;
+    background: #0094d9
+}
+
+.virtual-box .cards-list .cards-item {
+    float: left;
+    width: 210px;
+    height: 110px;
+    padding: 12px 18px;
+    margin-right: 16px;
+    margin-bottom: 16px;
+    background-color: #fafafa;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0, 37, 55, .05);
+}
+
+.virtual-box .cards-item span {
+    display: block;
+    line-height: 34px;
+    color: #000;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden
+}
+
+.virtual-box .cards-item span.bankicon {
+    display: inline-block
+}
+
+.virtual-box .cards-item .card-no {
+/ / padding-left: 30 px;
+    padding-left: 25px;
+    font-size: 18px
+}
+
+.virtual-box .cards-item .card-name {
+    font-size: 14px;
+    color: #999;
+    text-align: center
+}
+
+.virtual-item {
+    background: #fff
+}
+
+.virtual-row {
+    margin-bottom: 40px
+}
+
+.virtual-col-6 {
+    float: left;
+    width: 250px;
+    font-size: 16px;
+    line-height: 84px;
+    color: #999;
+    text-align: right
+}
+
+.virtual-col-6:after {
+    display: inline-block;
+    color: red
+}
+
+.virtual-col-18 {
+    padding-left: 305px
+}
+
+.virtual-box .card-sm {
+    float: left;
+    position: relative;
+    width: 286px;
+    height: 84px;
+    border-radius: 3px;
+    background-color: #fafafa;
+    box-shadow: 0 1px 3px rgba(0, 37, 55, .05);
+    border: 1px solid #e7eaf1
+}
+
+.virtual-box .card-sm span {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #010101;
+    text-align: center
+}
+
+.virtual-box .virtual-item .other {
+    float: left;
+    font-size: 16px;
+    line-height: 84px;
+    color: #0094d9;
+    cursor: pointer
+}
+
+.virtual-box .virtual-item .other:before {
+    display: inline-block;
+    content: "";
+    width: 16px;
+    height: 13px;
+    margin-right: 10px;
+}
+
+.virtual-row .card {
+    position: relative;
+    float: left;
+    display: block;
+    width: 160px;
+    height: 90px;
+    margin-right: 20px;
+    box-sizing: border-box;
+    background: #f9fbfc;
+    border: 1px solid #e7eaf1;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, .14)
+}
+
+.virtual-row .card.active {
+    border: 1px solid #0094d9
+}
+
+.virtual-row .card.disabled {
+    position: relative;
+    background: #fafafa
+}
+
+.virtual-row .card.disabled .tip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    padding: 3px 5px;
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+    font-size: 12px;
+    text-align: center;
+    transition: all .5s
+}
+
+.virtual-row .card.disabled .tip:before {
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    margin-left: -3px;
+    width: 0;
+    height: 0;
+    border-width: 7px 6px 0 7px;
+    border-style: solid;
+    border-color: hsla(0, 0%, 85%, .7) transparent transparent
+}
+
+.virtual-row .card.disabled .tip:after {
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    margin-left: -2px;
+    width: 0;
+    height: 0;
+    border-width: 6px 4px 0 6px;
+    border-style: solid;
+    border-color: #fff transparent transparent
+}
+
+.virtual-row .card.disabled:hover .tip {
+    top: -50px;
+    z-index: 1000
+}
+
+.virtual-row .card.disabled a {
+    cursor: no-drop
+}
+
+.virtual-row .card-nobg:after {
+    background: 0 0
+}
+
+.virtual-row .card-account {
+    position: absolute;
+    left: 10px;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%)
+}
+
+.virtual-row .card-account span {
+    display: block;
+    padding-left: 54px;
+    font-size: 14px;
+    color: #000
+}
+
+.virtual-row .card-account span.even {
+    padding-left: 40px
+}
+
+.CNY-bar {
+    height: 39px;
+    padding: 36px 0;
+    border-bottom: 1px solid #ececec;
+    overflow: hidden
+}
+
+.CNY-bar .CNY {
+    float: left;
+    font-size: 14px;
+    color: #666;
+    line-height: 39px
+}
+
+.CNY-bar .CNY strong {
+    margin-left: 28px;
+    font-size: 24px;
+    font-weight: 400;
+    color: #0094d9;
+    line-height: 39px
+}
+
+.CNY-bar .opt-bar {
+    float: right
+}
+
+.CNY-bar .opt-bar a {
+    width: 118px;
+    height: 39px;
+    line-height: 38px;
+    margin: 0;
+    padding: 0
+}

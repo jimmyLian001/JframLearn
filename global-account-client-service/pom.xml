@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.baofu.international</groupId>
+        <artifactId>global-account-client-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>global-account-client-service</artifactId>
+    <version>${project.parent.version}</version>
+
+    <dependencies>
+        <!--***************************一方库***************************-->
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>global-account-client-common</artifactId>
+        </dependency>
+        <!--***************************二方库***************************-->
+        <dependency>
+            <groupId>com.baofu.international</groupId>
+            <artifactId>global-account-core-facade</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baofu.international</groupId>
+            <artifactId>global-account-order-obtain-facade</artifactId>
+        </dependency>
+        <!--spring 相关jar-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+        <!--zk客戶端-->
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
